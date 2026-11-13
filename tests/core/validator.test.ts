@@ -6,6 +6,8 @@ import {
 import {
   validatePuzzle,
   validateAssignmentIntegrity,
+  validatePuzzleDefinition,
+  PuzzleSchemaError,
 } from "../../src/core/validator.js";
 import { createIndexedCatalog } from "../../src/core/catalog.js";
 import { PuzzleAssignment, PuzzleDefinition } from "../../src/core/types.js";
@@ -141,6 +143,48 @@ describe("Mathematical Validation Engine", () => {
     expect(result.isSolved).toBe(false);
     expect(result.summary.verifiedEdges).toBe(0);
     expect(result.summary.notVerifiedEdges).toBe(4);
+  });
+});
+
+describe("Puzzle Definition Schema Integrity", () => {
+  it("detects duplicate edge IDs in puzzle definition", () => {
+    const badPuzzle: PuzzleDefinition = {
+      ...linearAlgebraPuzzle01,
+      id: "dup-edge-puzzle",
+      edges: [
+        {
+          id: "e_duplicate",
+          sourceSlotId: "s1",
+          targetSlotId: "s2",
+          relation: "implies",
+        },
+        {
+          id: "e_duplicate",
+          sourceSlotId: "s1",
+          targetSlotId: "s3",
+          relation: "implies",
+        },
+      ],
+    };
+
+    expect(() =>
+      validatePuzzleDefinition(badPuzzle, linearAlgebraCatalog)
+    ).toThrow(PuzzleSchemaError);
+  });
+
+  it("detects invalid initialAssignment in puzzle definition", () => {
+    const badInitPuzzle: PuzzleDefinition = {
+      ...linearAlgebraPuzzle01,
+      id: "bad-init-puzzle",
+      initialAssignment: {
+        s1: "tile_1",
+        s2: "tile_1", // duplicate!
+      },
+    };
+
+    expect(() =>
+      validatePuzzleDefinition(badInitPuzzle, linearAlgebraCatalog)
+    ).toThrow(PuzzleSchemaError);
   });
 });
 

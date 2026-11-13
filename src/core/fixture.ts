@@ -175,9 +175,9 @@ export const linearAlgebraCatalog: KnowledgeCatalog = {
       sourceStatementId: "P4",
       targetStatementId: "P1",
       contextAssumptions: ["matrix_real_square"],
-      counterexample: "A = diag(2, 0) + [[0, 0], [0, 0]] or A = [[2, 0, 0], [0, 0, 1], [0, 0, 0]] in M_3(R)",
+      counterexample: "A = [[2, 0, 0], [0, 0, 1], [0, 0, 0]] in M_3(R)",
       justification:
-        "tr(A) = 2 and rank(A) = 2, but A^2 != A.",
+        "tr(A) = 2 and rank(A) = 2, so tr(A) = rank(A), but A^2 = [[4, 0, 0], [0, 0, 0], [0, 0, 0]] != A.",
     },
   ],
 };

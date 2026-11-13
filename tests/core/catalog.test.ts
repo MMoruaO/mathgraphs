@@ -15,7 +15,6 @@ describe("Catalog Integrity & Assumption Hierarchy", () => {
 
   it("indexes catalog relations correctly for O(1) lookup", () => {
     const indexed = createIndexedCatalog(linearAlgebraCatalog);
-    // Symmetric equivalence P1 <=> P5 should be indexed in both directions
     const keyForward = "equivalent:P1:P5";
     const keyReverse = "equivalent:P5:P1";
 
@@ -24,6 +23,16 @@ describe("Catalog Integrity & Assumption Hierarchy", () => {
 
     const forwardRels = indexed.verifiedMap.get(keyForward)!;
     expect(forwardRels[0].id).toBe("rel_P1_equiv_P5");
+  });
+
+  it("verifies that P4 not implies P1 has the valid 3x3 counterexample and rejects diag(2,0)", () => {
+    const refP4 = linearAlgebraCatalog.refutations?.find(
+      (r) => r.sourceStatementId === "P4" && r.targetStatementId === "P1"
+    );
+    expect(refP4).toBeDefined();
+    expect(refP4?.counterexample).toContain("[[2, 0, 0], [0, 0, 1], [0, 0, 0]]");
+    // Ensure the false example diag(2, 0) was removed
+    expect(refP4?.counterexample).not.toContain("diag(2, 0)");
   });
 
   it("computes transitive assumption closure correctly and handles cycles", () => {

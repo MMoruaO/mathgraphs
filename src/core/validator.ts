@@ -47,7 +47,13 @@ export function validatePuzzleDefinition(
     }
   }
 
+  const edgeIds = new Set<string>();
   for (const edge of puzzle.edges) {
+    if (edgeIds.has(edge.id)) {
+      throw new PuzzleSchemaError(`Duplicate edge ID: '${edge.id}'`);
+    }
+    edgeIds.add(edge.id);
+
     if (!slotIds.has(edge.sourceSlotId)) {
       throw new PuzzleSchemaError(
         `Edge '${edge.id}' references unknown sourceSlotId '${edge.sourceSlotId}'`
@@ -64,6 +70,19 @@ export function validatePuzzleDefinition(
     if (!catalog.assumptions[assumptionId]) {
       throw new PuzzleSchemaError(
         `Puzzle context references unknown assumptionId '${assumptionId}'`
+      );
+    }
+  }
+
+  // Validate initial assignment integrity
+  if (puzzle.initialAssignment) {
+    const initDiag = validateAssignmentIntegrity(
+      puzzle,
+      puzzle.initialAssignment
+    );
+    if (!initDiag.isValidBijection) {
+      throw new PuzzleSchemaError(
+        `Invalid initialAssignment in puzzle '${puzzle.id}': ${initDiag.errors.join("; ")}`
       );
     }
   }
@@ -123,7 +142,11 @@ export function validateAssignmentIntegrity(
 
 /**
  * Pure validator function that checks a puzzle assignment against the knowledge catalog.
- * Complexity: O(|E|) when using pre-indexed catalog.
+ *
+ * Computational Complexity:
+ * - Puzzle Definition & Assignment Check: O(|V| + |E| + |T|).
+ * - Edge Evaluation: Exactly O(|E|) when using pre-indexed HashMap lookups.
+ * - Overall Validation: O(|V| + |E| + |T|), which is strictly linear in board size.
  */
 export function validatePuzzle(
   puzzle: PuzzleDefinition,

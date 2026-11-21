@@ -16,6 +16,7 @@ import {
   PuzzleValidationResult,
   RelationType,
 } from "../core/types.js";
+import { Language } from "../i18n.js";
 
 const nodeTypes = {
   statement: StatementNode,
@@ -24,6 +25,7 @@ const nodeTypes = {
 export interface GraphBoardProps {
   puzzle: PuzzleDefinition;
   catalog: KnowledgeCatalog;
+  language: Language;
   assignment: Record<string, string>; // slotId -> tileId
   selectedSlotId: string | null;
   validationResult: PuzzleValidationResult | null;
@@ -49,6 +51,7 @@ function getRelationSymbol(rel: RelationType): string {
 export const GraphBoard: React.FC<GraphBoardProps> = ({
   puzzle,
   catalog,
+  language,
   assignment,
   selectedSlotId,
   validationResult,
@@ -81,8 +84,11 @@ export const GraphBoard: React.FC<GraphBoardProps> = ({
           slotId: slot.id,
           tileId: tileId ?? "",
           statementId: statementId ?? "",
-          latex: statement?.latex ?? "",
+          latex: statement?.translations?.[language]?.latex ?? statement?.latex ?? "",
           description: statement?.description ?? "",
+          localizedDescription:
+            statement?.translations?.[language]?.description ?? statement?.description ?? "",
+          language,
           isSelected: selectedSlotId === slot.id,
           onSelectSlot,
         },
@@ -93,6 +99,7 @@ export const GraphBoard: React.FC<GraphBoardProps> = ({
     assignment,
     tileToStatement,
     catalog.statements,
+    language,
     selectedSlotId,
     onSelectSlot,
   ]);
@@ -103,20 +110,22 @@ export const GraphBoard: React.FC<GraphBoardProps> = ({
       const edgeValidation = validationResult?.edges[edge.id];
       const status = edgeValidation?.status ?? "default";
 
-      let strokeColor = "#64748b"; // default slate
-      let labelBg = "#1e293b";
+      let strokeColor = "#747474";
+      let labelBg = "#f4f4f4";
+      let strokeDasharray: string | undefined;
       let animated = false;
 
       if (status === "verified") {
-        strokeColor = "#10b981"; // emerald 500
-        labelBg = "#064e3b";
+        strokeColor = "#111111";
+        labelBg = "#ffffff";
       } else if (status === "invalid") {
-        strokeColor = "#ef4444"; // red 500
-        labelBg = "#7f1d1d";
-        animated = true;
+        strokeColor = "#303030";
+        labelBg = "#e5e5e5";
+        strokeDasharray = "6 4";
       } else if (status === "not_verified") {
-        strokeColor = "#f59e0b"; // amber 500
-        labelBg = "#78350f";
+        strokeColor = "#858585";
+        labelBg = "#f4f4f4";
+        strokeDasharray = "2 4";
       }
 
       const isDirected = edge.relation === "implies";
@@ -136,12 +145,13 @@ export const GraphBoard: React.FC<GraphBoardProps> = ({
         labelBgStyle: {
           fill: labelBg,
           fillOpacity: 0.95,
-          rx: 6,
-          ry: 6,
+          rx: 1,
+          ry: 1,
         },
         style: {
           stroke: strokeColor,
           strokeWidth: status !== "default" ? 3 : 2,
+          strokeDasharray,
         },
         markerEnd: isDirected
           ? {
@@ -182,7 +192,7 @@ export const GraphBoard: React.FC<GraphBoardProps> = ({
         minZoom={0.5}
         maxZoom={1.5}
       >
-        <Background variant={BackgroundVariant.Dots} gap={24} size={1.2} color="#334155" />
+        <Background variant={BackgroundVariant.Dots} gap={24} size={1} color="#d0d0d0" />
       </ReactFlow>
     </div>
   );

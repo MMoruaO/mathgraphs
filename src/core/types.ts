@@ -1,10 +1,17 @@
 export type AssumptionId = string;
+export type SupportedLanguage = "es" | "en";
+
+export interface LocalizedContent {
+  description: string;
+  latex?: string;
+}
 
 export interface MathematicalAssumption {
   id: AssumptionId;
   latex: string;
   description: string;
   implies?: AssumptionId[];
+  translations?: Partial<Record<SupportedLanguage, LocalizedContent>>;
 }
 
 export interface PuzzleContext {
@@ -17,6 +24,7 @@ export interface Statement {
   id: string;
   latex: string;
   description: string;
+  translations?: Partial<Record<SupportedLanguage, LocalizedContent>>;
 }
 
 export interface Tile {
@@ -85,6 +93,15 @@ export interface PuzzleExplanationItem {
   description: string;
 }
 
+export interface PuzzleTranslation {
+  title: string;
+  description?: string;
+  explanation?: {
+    summary: string;
+    items: PuzzleExplanationItem[];
+  };
+}
+
 export interface PuzzleDefinition {
   id: string;
   title: string;
@@ -100,6 +117,7 @@ export interface PuzzleDefinition {
     summary: string;
     items: PuzzleExplanationItem[];
   };
+  translations?: Partial<Record<SupportedLanguage, PuzzleTranslation>>;
 }
 
 export type PuzzleAssignment = Record<string, string>; // slotId -> tileId

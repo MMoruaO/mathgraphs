@@ -27,7 +27,8 @@ MathGraphs is architected as an offline-first, client-rendered static web applic
 ```
 ┌────────────────────────────────────────────────────────┐
 │                   UI Layer (React)                     │
-│  - App.tsx, puzzle selector, controls (Check/Reset/Undo)│
+│  - App.tsx, puzzle selector, language switch, controls  │
+│    (Check/Reset/Undo)                                   │
 │  - GraphView (@xyflow/react canvas)                    │
 │  - StatementNode (KaTeX math display + selection halo) │
 └──────────────────────────┬─────────────────────────────┘
@@ -53,7 +54,7 @@ MathGraphs is architected as an offline-first, client-rendered static web applic
 ┌────────────────────────────────────────────────────────┐
 │           Data & Knowledge Catalog Layer (JSON/TS)     │
 │  - Puzzle registry, curated relations, statements,      │
-│    hypotheses hierarchy, and declarative puzzle JSON    │
+│    hypotheses, bilingual content, and puzzle JSON       │
 │  - Pre-indexed lookup maps: (rel, src, tgt) -> Record  │
 │  - Integrity validator: detects contradictory entries  │
 └────────────────────────────────────────────────────────┘

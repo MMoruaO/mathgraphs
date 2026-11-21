@@ -1,6 +1,7 @@
 import React from "react";
 import { Handle, Position } from "@xyflow/react";
 import { MathRenderer } from "./MathRenderer.js";
+import { Language, messages } from "../i18n.js";
 
 export interface StatementNodeData {
   slotId: string;
@@ -8,6 +9,8 @@ export interface StatementNodeData {
   statementId: string;
   latex: string;
   description: string;
+  localizedDescription: string;
+  language: Language;
   isSelected: boolean;
   onSelectSlot: (slotId: string) => void;
 }
@@ -17,9 +20,12 @@ export const StatementNode: React.FC<{ data: StatementNodeData }> = ({ data }) =
     slotId,
     latex,
     description,
+    localizedDescription,
+    language,
     isSelected,
     onSelectSlot,
   } = data;
+  const text = messages[language];
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -33,7 +39,7 @@ export const StatementNode: React.FC<{ data: StatementNodeData }> = ({ data }) =
       role="button"
       tabIndex={0}
       aria-pressed={isSelected}
-      aria-label={`Slot ${slotId}: ${description || latex}`}
+      aria-label={`${text.slot} ${slotId}: ${localizedDescription || description || latex}`}
       onKeyDown={handleKeyDown}
       className={`statement-node ${isSelected ? "statement-node-selected" : ""}`}
     >

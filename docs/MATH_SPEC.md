@@ -7,7 +7,7 @@ Mathematical correctness is the supreme priority of MathGraphs:
 2. **Universal Validity of Relations:** An implication $P \implies Q$ asserted on an edge must be universally true for *all* mathematical objects satisfying $\mathcal{H}$. It cannot merely happen to hold for a particular chosen matrix.
 3. **Distinction Between Truth and Knowledge:** The game operates on a curated, finite catalog of verified mathematical relationships. The absence of an entry in the catalog is **not evidence of mathematical falsehood**.
 4. **Open-World Interpretation with Finite Catalog Support:** Uncataloged relations must be classified as `not_verified`, reserving `invalid` only for assertions backed by verified counterexamples valid under $\mathcal{H}$.
-5. **Separation of Presentation and Semantics:** Mathematical formulas are identified by unique semantic string keys (e.g., `matrix_idempotent`), never by their KaTeX/LaTeX formatting.
+5. **Separation of Presentation and Semantics:** Mathematical formulas are identified by unique semantic string keys (e.g., `matrix_idempotent`), never by their KaTeX/LaTeX formatting. Localized LaTeX strings are presentation only; changing language must never change statement IDs or validator behavior.
 
 ---
 

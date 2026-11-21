@@ -65,5 +65,30 @@
         "description": "Los tres criterios finales pueden intercambiarse entre sus posiciones: el puzzle tiene seis soluciones válidas."
       }
     ]
+  },
+  "translations": {
+    "en": {
+      "title": "Orthogonality and Invertibility",
+      "description": "Distinguish the sufficient condition of orthogonality and arrange three equivalent criteria for invertibility.",
+      "explanation": {
+        "summary": "An orthogonal matrix is invertible; invertibility, a trivial kernel, and full rank are equivalent criteria.",
+        "items": [
+          {
+            "title": "Strict implication",
+            "math": "A^{\\mathsf T}A=I \\implies \\det(A)\\ne0",
+            "description": "The converse is false: an invertible matrix need not be orthogonal."
+          },
+          {
+            "title": "Equivalent criteria",
+            "math": "\\det(A)\\ne0 \\iff \\ker(A)=\\{0\\} \\iff \\operatorname{rank}(A)=n",
+            "description": "The Invertible Matrix Theorem connects these three conditions for finite-dimensional square matrices."
+          },
+          {
+            "title": "Equivalent solutions",
+            "description": "The final three criteria can be rearranged among their positions, giving six valid solutions."
+          }
+        ]
+      }
+    }
   }
 }

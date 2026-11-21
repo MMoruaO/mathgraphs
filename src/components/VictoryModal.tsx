@@ -1,10 +1,12 @@
 import React from "react";
 import { MathRenderer } from "./MathRenderer.js";
 import { PuzzleDefinition } from "../core/types.js";
+import { Language, messages } from "../i18n.js";
 
 export interface VictoryModalProps {
   isOpen: boolean;
   puzzle: PuzzleDefinition;
+  language: Language;
   moveCount: number;
   checkCount: number;
   onReset: () => void;
@@ -14,6 +16,7 @@ export interface VictoryModalProps {
 export const VictoryModal: React.FC<VictoryModalProps> = ({
   isOpen,
   puzzle,
+  language,
   moveCount,
   checkCount,
   onReset,
@@ -21,6 +24,7 @@ export const VictoryModal: React.FC<VictoryModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
+  const text = messages[language];
   const explanation = puzzle.explanation;
 
   return (
@@ -29,27 +33,27 @@ export const VictoryModal: React.FC<VictoryModalProps> = ({
         <div className="modal-header">
           <div className="victory-icon">∇</div>
           <h2 id="victory-title" className="victory-title">
-            ¡Configuración Matemática Válida!
+            {text.victoryTitle}
           </h2>
           <p className="victory-subtitle">
-            Has organizado todas las proposiciones satisfaciendo el 100% de las restricciones lógicas.
+            {text.victorySubtitle}
           </p>
         </div>
 
         <div className="modal-stats">
           <div className="modal-stat-box">
             <span className="modal-stat-number">{moveCount}</span>
-            <span className="modal-stat-label">Movimientos</span>
+            <span className="modal-stat-label">{text.moves}</span>
           </div>
           <div className="modal-stat-box">
             <span className="modal-stat-number">{checkCount}</span>
-            <span className="modal-stat-label">Comprobaciones</span>
+            <span className="modal-stat-label">{text.checks}</span>
           </div>
         </div>
 
         {explanation && (
           <div className="modal-explanation">
-            <h3>Estructura Matemática del Grafo:</h3>
+            <h3>{text.explanationTitle}</h3>
             <p className="explanation-summary">{explanation.summary}</p>
             <ul>
               {explanation.items.map((item, idx) => (
@@ -65,11 +69,11 @@ export const VictoryModal: React.FC<VictoryModalProps> = ({
 
         <div className="modal-actions gap-2">
           <button className="btn btn-secondary" onClick={onReset}>
-            Reintentar
+            {text.retry}
           </button>
           {onNextPuzzle && (
             <button className="btn btn-primary btn-large" onClick={onNextPuzzle}>
-              Siguiente Puzzle ➜
+              {text.nextPuzzle} ➜
             </button>
           )}
         </div>

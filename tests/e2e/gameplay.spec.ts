@@ -13,6 +13,36 @@ test.describe("MathGraphs Browser Interaction & Gameplay", () => {
     await expect(page.locator(".statement-node")).toHaveCount(5);
   });
 
+  test("switches the interface and puzzle content between Spanish and English", async ({ page }) => {
+    await page.getByRole("button", { name: "English" }).click();
+
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    await expect(page).toHaveTitle("MathGraphs — Deductive Mathematical Puzzles");
+    await expect(page.locator(".puzzle-title")).toContainText("Idempotent Matrices and Projections");
+    await expect(page.locator(".statement-node").filter({ hasText: "s4" })).toContainText("is diagonalizable over");
+    await expect(page.getByRole("button", { name: "Check" })).toBeVisible();
+    await expect(page.locator(".feedback-banner")).toContainText("Select one slot");
+
+    await page.reload();
+    await expect(page.locator(".puzzle-title")).toContainText("Idempotent Matrices and Projections");
+
+    await page.getByRole("button", { name: "Puzzles" }).click();
+    await expect(page.getByRole("heading", { name: "Mathematical puzzle library" })).toBeVisible();
+    const analysisCard = page.locator(".puzzle-card").filter({ hasText: "Regularity and Continuity Hierarchy" });
+    await analysisCard.click();
+    await expect(page.locator(".puzzle-title")).toContainText("Regularity and Continuity Hierarchy");
+    const differentiableSlot = page.locator(".statement-node").filter({ hasText: "s4" });
+    await expect(differentiableSlot).toContainText("differentiable");
+
+    await page.getByRole("button", { name: "Español" }).click();
+    await expect(page.locator("html")).toHaveAttribute("lang", "es");
+    await expect(differentiableSlot).toContainText("diferenciable");
+    await expect(page.locator(".puzzle-title")).toContainText("Jerarquía de Regularidad y Continuidad");
+    await expect(page).toHaveTitle("MathGraphs — Rompecabezas matemáticos");
+    await page.reload();
+    await expect(page.locator(".puzzle-title")).toContainText("Matrices Idempotentes y Proyecciones");
+  });
+
   test("click-to-swap mechanic exchanges two tiles and increments moves", async ({ page }) => {
     const statValue = page.locator(".stat-value").first();
     await expect(statValue).toHaveText("0");

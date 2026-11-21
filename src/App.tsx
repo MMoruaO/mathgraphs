@@ -8,9 +8,11 @@ import { GameControls } from "./components/GameControls.js";
 import { ValidationFeedback } from "./components/ValidationFeedback.js";
 import { VictoryModal } from "./components/VictoryModal.js";
 import { LevelSelectorModal } from "./components/LevelSelectorModal.js";
+import { getInitialLanguage, localizePuzzle, messages } from "./i18n.js";
 
 export const App: React.FC = () => {
   const [isSelectorOpen, setIsSelectorOpen] = useState(false);
+  const [language, setLanguage] = useState(getInitialLanguage);
 
   const {
     state,
@@ -22,6 +24,18 @@ export const App: React.FC = () => {
     check,
     clearSelection,
   } = useGameState(getDefaultPuzzle(), masterCatalog);
+
+  const displayPuzzle = localizePuzzle(puzzle, language);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.title = messages[language].documentTitle;
+    try {
+      window.localStorage.setItem("mathgraphs-language", language);
+    } catch {
+      // The language remains usable for this session if browser storage is unavailable.
+    }
+  }, [language]);
 
   // Keyboard shortcut support: Ctrl+Z for Undo
   useEffect(() => {
@@ -44,8 +58,10 @@ export const App: React.FC = () => {
   return (
     <div className="app-container">
       <PuzzleHeader
-        puzzle={puzzle}
+        puzzle={displayPuzzle}
         catalog={masterCatalog}
+        language={language}
+        onLanguageChange={setLanguage}
         onOpenSelector={() => setIsSelectorOpen(true)}
       />
 
@@ -53,6 +69,7 @@ export const App: React.FC = () => {
         <GraphBoard
           puzzle={puzzle}
           catalog={masterCatalog}
+          language={language}
           assignment={state.assignment}
           selectedSlotId={state.selectedSlotId}
           validationResult={state.validationResult}
@@ -65,6 +82,7 @@ export const App: React.FC = () => {
         <ValidationFeedback
           validationResult={state.validationResult}
           isStale={state.isStaleValidation}
+          language={language}
         />
         <GameControls
           onCheck={check}
@@ -74,12 +92,14 @@ export const App: React.FC = () => {
           moveCount={state.moveCount}
           checkCount={state.checkCount}
           selectedSlotId={state.selectedSlotId}
+          language={language}
         />
       </footer>
 
       <VictoryModal
         isOpen={state.isSolved}
-        puzzle={puzzle}
+        puzzle={displayPuzzle}
+        language={language}
         moveCount={state.moveCount}
         checkCount={state.checkCount}
         onReset={reset}
@@ -90,6 +110,7 @@ export const App: React.FC = () => {
         isOpen={isSelectorOpen}
         puzzles={puzzleRegistry}
         currentPuzzleId={puzzle.id}
+        language={language}
         onSelectPuzzle={setPuzzle}
         onClose={() => setIsSelectorOpen(false)}
       />

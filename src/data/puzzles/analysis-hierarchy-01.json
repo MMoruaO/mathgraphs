@@ -64,5 +64,29 @@
         "description": "Como la cadena es asimétrica y no invertible, este puzzle posee una solución única (1 de 24 permutaciones)."
       }
     ]
+  },
+  "translations": {
+    "en": {
+      "title": "Regularity and Continuity Hierarchy",
+      "description": "Arrange a strict chain of implications about regularity in real analysis, from continuous differentiability to the intermediate value property.",
+      "explanation": {
+        "summary": "Real analysis has a strict implication chain: C¹(I) ⟹ differentiable ⟹ continuous ⟹ Darboux (intermediate value property).",
+        "items": [
+          {
+            "title": "Strict one-way chain",
+            "math": "f \\in C^1(I) \\implies f \\text{ differentiable} \\implies f \\in C(I) \\implies \\text{Darboux}",
+            "description": "None of these implications can be reversed in general."
+          },
+          {
+            "title": "Classical counterexamples",
+            "description": "|x| is continuous but not differentiable at 0; x² sin(1/x) is differentiable with a discontinuous derivative; sin(1/x), extended by 0 at 0, has the Darboux property but is discontinuous there."
+          },
+          {
+            "title": "Unique solution",
+            "description": "The chain is asymmetric and not reversible, so this puzzle has one solution among 24 permutations."
+          }
+        ]
+      }
+    }
   }
 }

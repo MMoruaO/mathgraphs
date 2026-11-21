@@ -13,6 +13,7 @@ MathGraphs is a browser-based deductive puzzle game built around university-leve
   - `fixture.ts`: Reference linear algebra catalog and prototype 5-node puzzle.
 - `src/data/`: Curated master catalog, puzzle registry, and declarative puzzle JSON.
 - `src/state/` and `src/components/`: React game state and browser interface.
+- `src/i18n.ts`: Spanish/English interface strings and language preference helpers.
 - `tests/`: Vitest core/data/state tests and Playwright browser interaction tests.
 
 ## Running Tests Locally
@@ -44,3 +45,4 @@ npm run build
 ```
 
 Vitest excludes `tests/e2e/`; Playwright uses `playwright.config.ts` and starts a local Vite server.
+The interface and puzzle explanations are available in Spanish and English; the selected language is saved in browser storage.

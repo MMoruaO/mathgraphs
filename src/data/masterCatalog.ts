@@ -40,26 +40,36 @@ export const masterCatalog: KnowledgeCatalog = {
       id: "P1",
       latex: "A^2 = A",
       description: "A is an idempotent matrix",
+      translations: { es: { description: "A es una matriz idempotente" } },
     },
     P2: {
       id: "P2",
       latex: "\\sigma(A) \\subseteq \\{0, 1\\}",
       description: "The spectrum of A over R is a subset of {0, 1}",
+      translations: { es: { description: "El espectro de A está contenido en {0, 1}" } },
     },
     P3: {
       id: "P3",
       latex: "A \\text{ is diagonalizable over } \\mathbb{R}",
       description: "A is diagonalizable over the field of real numbers",
+      translations: {
+        es: {
+          description: "A es diagonalizable sobre los números reales",
+          latex: "A \\text{ es diagonalizable sobre } \\mathbb{R}",
+        },
+      },
     },
     P4: {
       id: "P4",
       latex: "\\operatorname{tr}(A) = \\operatorname{rank}(A)",
       description: "The trace of A equals its rank",
+      translations: { es: { description: "La traza de A es igual a su rango" } },
     },
     P5: {
       id: "P5",
       latex: "(I - A)^2 = I - A",
       description: "The complementary projection I - A is idempotent",
+      translations: { es: { description: "La proyección complementaria I - A es idempotente" } },
     },
 
     // --- Topic 2: Linear Algebra (Invertibility and Regularity) ---
@@ -67,26 +77,31 @@ export const masterCatalog: KnowledgeCatalog = {
       id: "LA_INV",
       latex: "\\det(A) \\neq 0",
       description: "The determinant of A is non-zero (A is invertible)",
+      translations: { es: { description: "El determinante de A es distinto de cero (A es invertible)" } },
     },
     LA_KER: {
       id: "LA_KER",
       latex: "\\ker(A) = \\{0\\}",
       description: "The kernel of A is trivial",
+      translations: { es: { description: "El núcleo de A es trivial" } },
     },
     LA_RANK: {
       id: "LA_RANK",
       latex: "\\operatorname{rank}(A) = n",
       description: "A has full rank n",
+      translations: { es: { description: "A tiene rango completo n" } },
     },
     LA_NO_ZERO_EIG: {
       id: "LA_NO_ZERO_EIG",
       latex: "0 \\notin \\sigma(A)",
       description: "Zero is not an eigenvalue of A",
+      translations: { es: { description: "Cero no es un valor propio de A" } },
     },
     LA_ORTHOGONAL: {
       id: "LA_ORTHOGONAL",
       latex: "A^{\\mathsf T}A = I",
       description: "A is an orthogonal real matrix",
+      translations: { es: { description: "A es una matriz ortogonal real" } },
     },
 
     // --- Topic 3: Real Analysis (Smoothness & Continuity Hierarchy) ---
@@ -94,21 +109,35 @@ export const masterCatalog: KnowledgeCatalog = {
       id: "ANA_C1",
       latex: "f \\in C^1(I)",
       description: "f is continuously differentiable on I",
+      translations: { es: { description: "f es continuamente diferenciable en I" } },
     },
     ANA_DIFF: {
       id: "ANA_DIFF",
       latex: "f \\text{ is differentiable on } I",
       description: "f'(x) exists for all x in I",
+      translations: {
+        es: {
+          description: "f'(x) existe para todo x en I",
+          latex: "f \\text{ es diferenciable en } I",
+        },
+      },
     },
     ANA_CONT: {
       id: "ANA_CONT",
       latex: "f \\in C(I)",
       description: "f is continuous on I",
+      translations: { es: { description: "f es continua en I" } },
     },
     ANA_DARBOUX: {
       id: "ANA_DARBOUX",
       latex: "f \\text{ satisfies the Intermediate Value Property on } I",
       description: "f satisfies the Darboux intermediate value property on I",
+      translations: {
+        es: {
+          description: "f satisface la propiedad de Darboux en I",
+          latex: "f \\text{ tiene la propiedad de Darboux en } I",
+        },
+      },
     },
 
     // --- Topic 4: Topology (Compactness in Metric Spaces) ---
@@ -116,21 +145,45 @@ export const masterCatalog: KnowledgeCatalog = {
       id: "TOP_COMPACT",
       latex: "K \\text{ is compact}",
       description: "Every open cover of K has a finite subcover",
+      translations: {
+        es: {
+          description: "Todo recubrimiento abierto de K tiene un subrecubrimiento finito",
+          latex: "K \\text{ es compacto}",
+        },
+      },
     },
     TOP_SEQ_COMPACT: {
       id: "TOP_SEQ_COMPACT",
       latex: "K \\text{ is sequentially compact}",
       description: "Every sequence in K has a subsequence converging to a point in K",
+      translations: {
+        es: {
+          description: "Toda sucesión en K tiene una subsucesión convergente a un punto de K",
+          latex: "K \\text{ es secuencialmente compacto}",
+        },
+      },
     },
     TOP_CLOSED_BOUNDED: {
       id: "TOP_CLOSED_BOUNDED",
       latex: "K \\text{ is closed and bounded}",
       description: "K contains all its limit points and has finite diameter",
+      translations: {
+        es: {
+          description: "K contiene todos sus puntos límite y tiene diámetro finito",
+          latex: "K \\text{ es cerrado y acotado}",
+        },
+      },
     },
     TOP_TOTAL_BOUNDED: {
       id: "TOP_TOTAL_BOUNDED",
       latex: "K \\text{ is totally bounded}",
       description: "For every epsilon > 0, K can be covered by finitely many epsilon-balls",
+      translations: {
+        es: {
+          description: "Para todo epsilon > 0, K puede cubrirse con un número finito de bolas de radio epsilon",
+          latex: "K \\text{ es totalmente acotado}",
+        },
+      },
     },
   },
 

@@ -74,5 +74,30 @@
         "description": "Existen 12 permutaciones válidas debido a la intercambiabilidad de los tres ramales de implicación y la equivalencia s1 <-> s5."
       }
     ]
+  },
+  "translations": {
+    "en": {
+      "title": "Idempotent Matrices and Projections",
+      "description": "Explore the algebraic, spectral, and diagonalizability properties of matrices satisfying A² = A.",
+      "explanation": {
+        "summary": "Every real idempotent matrix has eigenvalues in {0, 1}, is diagonalizable, and has trace equal to rank.",
+        "items": [
+          {
+            "title": "Fundamental equivalence",
+            "math": "A^2 = A \\iff (I - A)^2 = I - A",
+            "description": "A matrix is idempotent if and only if its complementary projection is idempotent."
+          },
+          {
+            "title": "Spectral and rank implications",
+            "math": "A^2 = A \\implies \\sigma(A) \\subseteq \\{0, 1\\}, \\, \\operatorname{tr}(A) = \\operatorname{rank}(A)",
+            "description": "Since A is diagonalizable with eigenvalues in {0, 1}, the trace counts the multiplicity of eigenvalue 1, which equals the rank."
+          },
+          {
+            "title": "Puzzle symmetry",
+            "description": "There are 12 valid arrangements because the three implication branches can be permuted and the equivalent statements at s1 and s5 can be swapped."
+          }
+        ]
+      }
+    }
   }
 }

@@ -60,5 +60,25 @@
         "description": "Todo conjunto compacto es cerrado y acotado, pero en espacios de dimensión infinita (como l² o espacios métricos discretos infinitos), un conjunto cerrado y acotado no es compacto."
       }
     ]
+  },
+  "translations": {
+    "en": {
+      "title": "Compactness in Metric Spaces",
+      "description": "Explore the relationships between compactness, sequential compactness, closed and bounded sets, and total boundedness.",
+      "explanation": {
+        "summary": "In metric spaces, compactness is equivalent to sequential compactness and implies that a set is closed, bounded, and totally bounded.",
+        "items": [
+          {
+            "title": "Equivalence in metric spaces",
+            "math": "K \\text{ is compact} \\iff K \\text{ is sequentially compact}",
+            "description": "Unlike in general topological spaces, these two notions coincide in metric spaces."
+          },
+          {
+            "title": "One-way implications",
+            "description": "Every compact set is closed and bounded, but in infinite-dimensional spaces (such as l² or infinite discrete metric spaces), a closed and bounded set need not be compact."
+          }
+        ]
+      }
+    }
   }
 }

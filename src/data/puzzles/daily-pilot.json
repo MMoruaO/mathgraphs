@@ -1,0 +1,666 @@
+[
+  {
+    "id": "daily-logic-implication-chain",
+    "title": "Una escalera de implicaciones",
+    "topic": "logic",
+    "difficulty": "easy",
+    "description": "Ordena cuatro proposiciones conectadas por implicaciones universales.",
+    "sources": [
+      {
+        "citation": "Jim Hefferon, Introduction to Proofs: an Inquiry-based Approach, material on elementary logic.",
+        "url": "https://hefferon.net/proofs/",
+        "note": "Reference for the logical definitions. The puzzle wording and graph are original to MathGraphs."
+      }
+    ],
+    "context": {
+      "id": "ctx_daily_propositional_logic",
+      "name": "Proposiciones arbitrarias",
+      "assumptions": [
+        "propositional_context"
+      ]
+    },
+    "slots": [
+      {
+        "id": "s1",
+        "position": {
+          "x": 60,
+          "y": 180
+        }
+      },
+      {
+        "id": "s2",
+        "position": {
+          "x": 240,
+          "y": 180
+        }
+      },
+      {
+        "id": "s3",
+        "position": {
+          "x": 420,
+          "y": 180
+        }
+      },
+      {
+        "id": "s4",
+        "position": {
+          "x": 600,
+          "y": 180
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "sourceSlotId": "s1",
+        "targetSlotId": "s2",
+        "relation": "implies"
+      },
+      {
+        "id": "e2",
+        "sourceSlotId": "s2",
+        "targetSlotId": "s3",
+        "relation": "implies"
+      },
+      {
+        "id": "e3",
+        "sourceSlotId": "s3",
+        "targetSlotId": "s4",
+        "relation": "implies"
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t1",
+        "statementId": "LOGIC_AND_PQ"
+      },
+      {
+        "id": "t2",
+        "statementId": "LOGIC_P"
+      },
+      {
+        "id": "t3",
+        "statementId": "LOGIC_P_OR_R"
+      },
+      {
+        "id": "t4",
+        "statementId": "LOGIC_P_OR_R_OR_S"
+      }
+    ],
+    "initialAssignment": {
+      "s1": "t3",
+      "s2": "t1",
+      "s3": "t4",
+      "s4": "t2"
+    },
+    "explanation": {
+      "summary": "La conjunción permite concluir cada una de sus partes; agregar alternativas a una disyunción conserva la implicación.",
+      "items": [
+        {
+          "title": "Eliminación de la conjunción",
+          "math": "P \\land Q \\implies P",
+          "description": "Si ambas proposiciones son verdaderas, P también lo es."
+        },
+        {
+          "title": "Introducción de disyunción",
+          "math": "P \\implies P \\lor R \\implies P \\lor R \\lor S",
+          "description": "Una disyunción verdadera sigue siéndolo al añadir otra alternativa."
+        }
+      ]
+    },
+    "translations": {
+      "en": {
+        "title": "An implication ladder",
+        "description": "Arrange four propositions connected by universal implications.",
+        "explanation": {
+          "summary": "A conjunction lets us conclude either part; adding alternatives to a disjunction preserves implication.",
+          "items": [
+            {
+              "title": "Conjunction elimination",
+              "math": "P \\land Q \\implies P",
+              "description": "If both propositions are true, then P is true."
+            },
+            {
+              "title": "Disjunction introduction",
+              "math": "P \\implies P \\lor R \\implies P \\lor R \\lor S",
+              "description": "A true disjunction remains true when another alternative is added."
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "daily-set-difference-inclusion",
+    "title": "Diferencia, conjunto y unión",
+    "topic": "set_theory",
+    "difficulty": "easy",
+    "description": "Sigue la inclusión desde los elementos que quedan en A hasta la unión A ∪ B.",
+    "sources": [
+      {
+        "citation": "Jim Hefferon, Introduction to Proofs: an Inquiry-based Approach, material on sets.",
+        "url": "https://hefferon.net/proofs/",
+        "note": "Reference for set definitions. The puzzle wording and graph are original to MathGraphs."
+      }
+    ],
+    "context": {
+      "id": "ctx_daily_sets",
+      "name": "Subconjuntos de un universo común",
+      "assumptions": [
+        "set_context"
+      ]
+    },
+    "slots": [
+      {
+        "id": "s1",
+        "position": {
+          "x": 120,
+          "y": 180
+        }
+      },
+      {
+        "id": "s2",
+        "position": {
+          "x": 330,
+          "y": 180
+        }
+      },
+      {
+        "id": "s3",
+        "position": {
+          "x": 540,
+          "y": 180
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "sourceSlotId": "s1",
+        "targetSlotId": "s2",
+        "relation": "subset_of"
+      },
+      {
+        "id": "e2",
+        "sourceSlotId": "s2",
+        "targetSlotId": "s3",
+        "relation": "subset_of"
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t1",
+        "statementId": "SET_DIFFERENCE_AB"
+      },
+      {
+        "id": "t2",
+        "statementId": "SET_A"
+      },
+      {
+        "id": "t3",
+        "statementId": "SET_UNION_AB"
+      }
+    ],
+    "initialAssignment": {
+      "s1": "t3",
+      "s2": "t1",
+      "s3": "t2"
+    },
+    "explanation": {
+      "summary": "Todo elemento de A \\ B pertenece a A, y todo elemento de A pertenece a A ∪ B.",
+      "items": [
+        {
+          "title": "Comprueba elemento por elemento",
+          "math": "x \\in A \\setminus B \\implies x \\in A \\implies x \\in A \\cup B",
+          "description": "La dirección importa: las inclusiones inversas no son ciertas para conjuntos arbitrarios."
+        }
+      ]
+    },
+    "translations": {
+      "en": {
+        "title": "Difference, set, and union",
+        "description": "Follow inclusion from the elements left in A to the union A ∪ B.",
+        "explanation": {
+          "summary": "Every element of A \\ B belongs to A, and every element of A belongs to A ∪ B.",
+          "items": [
+            {
+              "title": "Check element by element",
+              "math": "x \\in A \\setminus B \\implies x \\in A \\implies x \\in A \\cup B",
+              "description": "Direction matters: the reverse inclusions do not hold for arbitrary sets."
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "daily-basis-properties",
+    "title": "Las dos propiedades de una base",
+    "topic": "linear_algebra",
+    "difficulty": "easy",
+    "description": "Coloca la condición que implica independencia lineal y generación del espacio.",
+    "sources": [
+      {
+        "citation": "Jim Hefferon, Linear Algebra, chapter on vector spaces.",
+        "url": "https://hefferon.net/linearalgebra/",
+        "note": "Reference for the basis definition. The puzzle wording and graph are original to MathGraphs."
+      }
+    ],
+    "context": {
+      "id": "ctx_daily_vector_family",
+      "name": "Familia finita en un espacio vectorial",
+      "assumptions": [
+        "vector_family_context"
+      ]
+    },
+    "slots": [
+      {
+        "id": "s1",
+        "position": {
+          "x": 300,
+          "y": 60
+        }
+      },
+      {
+        "id": "s2",
+        "position": {
+          "x": 120,
+          "y": 300
+        }
+      },
+      {
+        "id": "s3",
+        "position": {
+          "x": 480,
+          "y": 300
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "sourceSlotId": "s1",
+        "targetSlotId": "s2",
+        "relation": "implies"
+      },
+      {
+        "id": "e2",
+        "sourceSlotId": "s1",
+        "targetSlotId": "s3",
+        "relation": "implies"
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t1",
+        "statementId": "VEC_BASIS"
+      },
+      {
+        "id": "t2",
+        "statementId": "VEC_LI"
+      },
+      {
+        "id": "t3",
+        "statementId": "VEC_SPANS"
+      }
+    ],
+    "initialAssignment": {
+      "s1": "t2",
+      "s2": "t3",
+      "s3": "t1"
+    },
+    "explanation": {
+      "summary": "Una base cumple simultáneamente dos condiciones: es linealmente independiente y genera todo V.",
+      "items": [
+        {
+          "title": "Definición de base",
+          "math": "B \\text{ es base de } V \\implies (B \\text{ es LI}) \\land (\\operatorname{span}(B)=V)",
+          "description": "Las dos condiciones juntas caracterizan una base; cada una por separado no basta."
+        }
+      ]
+    },
+    "translations": {
+      "en": {
+        "title": "The two properties of a basis",
+        "description": "Place the condition that implies both linear independence and spanning.",
+        "explanation": {
+          "summary": "A basis satisfies two properties at once: it is linearly independent and spans all of V.",
+          "items": [
+            {
+              "title": "Definition of a basis",
+              "math": "B \\text{ is a basis of } V \\implies (B \\text{ is LI}) \\land (\\operatorname{span}(B)=V)",
+              "description": "Both conditions together characterize a basis; neither one alone is enough."
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "daily-preimage-identities",
+    "title": "Preimágenes de intersecciones y uniones",
+    "topic": "set_theory",
+    "difficulty": "medium",
+    "description": "Empareja las identidades de preimagen y ordena la inclusión que las conecta.",
+    "sources": [
+      {
+        "citation": "Jim Hefferon, Introduction to Proofs: an Inquiry-based Approach, material on functions and sets.",
+        "url": "https://hefferon.net/proofs/",
+        "note": "Reference for the set and function definitions. The puzzle wording and graph are original to MathGraphs."
+      }
+    ],
+    "context": {
+      "id": "ctx_daily_preimages",
+      "name": "Preimagen bajo una función",
+      "assumptions": [
+        "preimage_context"
+      ]
+    },
+    "slots": [
+      {
+        "id": "s1",
+        "position": {
+          "x": 100,
+          "y": 120
+        }
+      },
+      {
+        "id": "s2",
+        "position": {
+          "x": 300,
+          "y": 120
+        }
+      },
+      {
+        "id": "s3",
+        "position": {
+          "x": 500,
+          "y": 120
+        }
+      },
+      {
+        "id": "s4",
+        "position": {
+          "x": 300,
+          "y": 330
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "sourceSlotId": "s1",
+        "targetSlotId": "s2",
+        "relation": "equals"
+      },
+      {
+        "id": "e2",
+        "sourceSlotId": "s3",
+        "targetSlotId": "s4",
+        "relation": "equals"
+      },
+      {
+        "id": "e3",
+        "sourceSlotId": "s1",
+        "targetSlotId": "s3",
+        "relation": "subset_of"
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t1",
+        "statementId": "SET_PREIMAGE_INTERSECTION"
+      },
+      {
+        "id": "t2",
+        "statementId": "SET_INTERSECTION_PREIMAGES"
+      },
+      {
+        "id": "t3",
+        "statementId": "SET_PREIMAGE_UNION"
+      },
+      {
+        "id": "t4",
+        "statementId": "SET_UNION_PREIMAGES"
+      }
+    ],
+    "initialAssignment": {
+      "s1": "t3",
+      "s2": "t1",
+      "s3": "t2",
+      "s4": "t4"
+    },
+    "explanation": {
+      "summary": "La preimagen distribuye sobre unión e intersección; además, la preimagen de la intersección queda contenida en la de la unión.",
+      "items": [
+        {
+          "title": "Verificación por elementos",
+          "math": "f^{-1}(A \\cap B)=f^{-1}(A)\\cap f^{-1}(B),\\quad f^{-1}(A\\cap B)\\subseteq f^{-1}(A\\cup B)",
+          "description": "Para cada x en X, ambas afirmaciones se reducen a pertenencia de f(x) a los conjuntos del codominio."
+        }
+      ]
+    },
+    "translations": {
+      "en": {
+        "title": "Preimages of intersections and unions",
+        "description": "Match the preimage identities and arrange the inclusion that connects them.",
+        "explanation": {
+          "summary": "Preimages distribute over unions and intersections; the preimage of the intersection is contained in the preimage of the union.",
+          "items": [
+            {
+              "title": "Elementwise verification",
+              "math": "f^{-1}(A \\cap B)=f^{-1}(A)\\cap f^{-1}(B),\\quad f^{-1}(A\\cap B)\\subseteq f^{-1}(A\\cup B)",
+              "description": "For each x in X, both claims reduce to membership of f(x) in codomain sets."
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "daily-basis-unique-coordinates",
+    "title": "Base y coordenadas únicas",
+    "topic": "linear_algebra",
+    "difficulty": "medium",
+    "description": "Conecta la definición de base con la unicidad de coordenadas y la independencia lineal.",
+    "sources": [
+      {
+        "citation": "Jim Hefferon, Linear Algebra, chapter on vector spaces.",
+        "url": "https://hefferon.net/linearalgebra/",
+        "note": "Reference for basis and coordinate results. The puzzle wording and graph are original to MathGraphs."
+      }
+    ],
+    "context": {
+      "id": "ctx_daily_vector_family",
+      "name": "Familia finita en un espacio vectorial",
+      "assumptions": [
+        "vector_family_context"
+      ]
+    },
+    "slots": [
+      {
+        "id": "s1",
+        "position": {
+          "x": 150,
+          "y": 200
+        }
+      },
+      {
+        "id": "s2",
+        "position": {
+          "x": 370,
+          "y": 100
+        }
+      },
+      {
+        "id": "s3",
+        "position": {
+          "x": 590,
+          "y": 200
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "sourceSlotId": "s1",
+        "targetSlotId": "s2",
+        "relation": "equivalent"
+      },
+      {
+        "id": "e2",
+        "sourceSlotId": "s1",
+        "targetSlotId": "s3",
+        "relation": "implies"
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t1",
+        "statementId": "VEC_BASIS"
+      },
+      {
+        "id": "t2",
+        "statementId": "VEC_UNIQUE_COORDINATES"
+      },
+      {
+        "id": "t3",
+        "statementId": "VEC_LI"
+      }
+    ],
+    "initialAssignment": {
+      "s1": "t3",
+      "s2": "t1",
+      "s3": "t2"
+    },
+    "explanation": {
+      "summary": "Ser una base equivale a que todo vector tenga coordenadas únicas respecto de esa familia, e implica independencia lineal.",
+      "items": [
+        {
+          "title": "Existencia y unicidad",
+          "math": "B \\text{ base de } V \\iff \\forall v\\in V,\\ v=\\sum_i c_i v_i \\text{ de forma única}",
+          "description": "La generación da existencia; la independencia garantiza que la representación no se repite."
+        }
+      ]
+    },
+    "translations": {
+      "en": {
+        "title": "Basis and unique coordinates",
+        "description": "Connect the definition of a basis to unique coordinates and linear independence.",
+        "explanation": {
+          "summary": "Being a basis is equivalent to every vector having unique coordinates in that family, and it implies linear independence.",
+          "items": [
+            {
+              "title": "Existence and uniqueness",
+              "math": "B \\text{ is a basis of } V \\iff \\forall v\\in V,\\ v=\\sum_i c_i v_i \\text{ uniquely}",
+              "description": "Spanning gives existence; independence guarantees the representation is unique."
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "daily-set-intersection-inclusion",
+    "title": "Intersección, conjunto y unión",
+    "topic": "set_theory",
+    "difficulty": "easy",
+    "description": "Ordena tres conjuntos mediante inclusiones que se comprueban por pertenencia.",
+    "sources": [
+      {
+        "citation": "Jim Hefferon, Introduction to Proofs: an Inquiry-based Approach, material on sets.",
+        "url": "https://hefferon.net/proofs/",
+        "note": "Reference for set definitions. The puzzle wording and graph are original to MathGraphs."
+      }
+    ],
+    "context": {
+      "id": "ctx_daily_sets",
+      "name": "Subconjuntos de un universo común",
+      "assumptions": [
+        "set_context"
+      ]
+    },
+    "slots": [
+      {
+        "id": "s1",
+        "position": {
+          "x": 120,
+          "y": 180
+        }
+      },
+      {
+        "id": "s2",
+        "position": {
+          "x": 330,
+          "y": 180
+        }
+      },
+      {
+        "id": "s3",
+        "position": {
+          "x": 540,
+          "y": 180
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "sourceSlotId": "s1",
+        "targetSlotId": "s2",
+        "relation": "subset_of"
+      },
+      {
+        "id": "e2",
+        "sourceSlotId": "s2",
+        "targetSlotId": "s3",
+        "relation": "subset_of"
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t1",
+        "statementId": "SET_INTERSECTION_AB"
+      },
+      {
+        "id": "t2",
+        "statementId": "SET_A"
+      },
+      {
+        "id": "t3",
+        "statementId": "SET_UNION_AB"
+      }
+    ],
+    "initialAssignment": {
+      "s1": "t3",
+      "s2": "t1",
+      "s3": "t2"
+    },
+    "explanation": {
+      "summary": "Todo elemento común a A y B está en A; todo elemento de A está en la unión.",
+      "items": [
+        {
+          "title": "Prueba por pertenencia",
+          "math": "A\\cap B\\subseteq A\\subseteq A\\cup B",
+          "description": "La inclusión es universal y no necesita que los conjuntos sean distintos o no vacíos."
+        }
+      ]
+    },
+    "translations": {
+      "en": {
+        "title": "Intersection, set, and union",
+        "description": "Arrange three sets using inclusions that can be checked by membership.",
+        "explanation": {
+          "summary": "Every element common to A and B belongs to A; every element of A belongs to the union.",
+          "items": [
+            {
+              "title": "Membership proof",
+              "math": "A\\cap B\\subseteq A\\subseteq A\\cup B",
+              "description": "The inclusion is universal and does not require the sets to be distinct or nonempty."
+            }
+          ]
+        }
+      }
+    }
+  }
+]

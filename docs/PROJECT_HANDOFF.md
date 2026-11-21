@@ -29,8 +29,9 @@ Los conteos del solver se entienden respecto al catálogo curado, no como prueba
 - Aplicación estática: React, TypeScript, Vite, `@xyflow/react` y KaTeX.
 - `src/core/`: modelos, catálogo, validador y solver puros, independientes de React, DOM y navegador.
 - `src/data/`: catálogo maestro, registro y puzzles declarativos JSON.
+- `src/data/dailySchedule.ts`: fechas UTC y mapeo de retos publicados; fechas futuras aún no publicadas usan `puzzleId: null`.
 - `src/state/`: estado de selección, intercambios, undo/reset y solicitudes de validación.
-- `src/components/`: presentación e interacción del navegador.
+- `src/components/`: presentación e interacción del navegador, incluido el archivo diario.
 - `src/i18n.ts`: traducciones de interfaz y persistencia de idioma español/inglés. Las fichas y explicaciones de los puzzles también tienen presentación localizada; no basta traducir solo los controles.
 - `tests/`: pruebas unitarias con Vitest y pruebas de interacción en navegador con Playwright.
 
@@ -38,30 +39,33 @@ Mantener separadas la semántica matemática, los datos de puzzles, el estado de
 
 ## Estado conocido del proyecto
 
-**Verificado en el repositorio:** la rama es `main` y el último commit (`HEAD`) es `f49016a feat: add curated multi-puzzle library`, alineado con `origin/main`. Hay cuatro definiciones de puzzle en `src/data/puzzles/`: álgebra lineal de idempotencia, invertibilidad en álgebra lineal, jerarquía de análisis y compacidad en topología. La interfaz permite seleccionar puzzles y alternar español/inglés.
+**Último commit publicado antes del piloto diario:** `569c0c5 feat: localize and restyle the game interface`.
 
-**Trabajo local aún sin commit según el último estado inspeccionado:** cambios de internacionalización de la interfaz y del contenido matemático, documentación relacionada, cobertura E2E del cambio de idioma y un rediseño visual monocromático retro/académico. Incluyen `src/i18n.ts`, modificaciones de componentes/datos/estilos y una prueba E2E. Confirmar siempre `git status` al iniciar; no asumir que estos cambios ya están publicados.
+**Piloto diario en desarrollo:** calendario fijo de doce días UTC, del 15 al 26 de noviembre de 2026: seis retos archivados (15–20 nov), el reto del 21 nov y cinco fechas futuras bloqueadas. El registro público contiene los retos ya liberados y una entrada reutiliza el puzzle de invertibilidad. Las referencias se muestran tras resolver el puzzle. Los borradores de los cinco retos futuros están guardados localmente en `daily-drafts/`, carpeta ignorada por Git, y no se importan en el catálogo ni en el bundle público. No incluirlos en commits ni subirlos a GitHub antes de publicarlos.
 
-**Comprobaciones ejecutadas recientemente:**
+**Trabajo local sin commit:** calendario y archivo diarios, puzzles liberados, relaciones necesarias del catálogo, referencias bibliográficas, traducciones, documentación y pruebas. Las fechas futuras conservan solo el estado bloqueado. Revisar `git status` antes de continuar; no asumir que estos cambios están publicados.
 
-- `npm run build`: completó correctamente (TypeScript y build de Vite). Vite advierte que el bundle JS principal supera 500 kB minificado; es una advertencia de tamaño, no un fallo.
-- `npm test`: 45 pruebas pasaron.
-- `npm run test:e2e -- --output=/tmp/mathgraphs-retro-playwright`: 8 pruebas de navegador pasaron, incluidos flujos de juego e idioma.
+**Comprobaciones ejecutadas después de retirar del bundle los borradores futuros:**
+
+- `npm run typecheck`: pasó.
+- `npm test`: 65 pruebas pasaron; todos los puzzles públicos registrados tienen al menos una solución verificada en el catálogo.
+- `npm run test:e2e`: 9 pruebas Playwright pasaron, incluyendo archivo, fechas futuras bloqueadas, idioma y referencia del puzzle.
+- `npm run build`: completó correctamente (TypeScript y Vite). Vite advierte que el bundle principal pesa aproximadamente 748 kB minificado; es una advertencia de tamaño, no un fallo.
 - `git diff --check`: pasó.
 
-Los resultados anteriores describen esa revisión reciente; volver a ejecutarlos si el estado del árbol cambió. En particular, React Flow ha tenido antes un fallo de doble manejo de clic que seleccionaba y deseleccionaba una ficha de inmediato. Las pruebas unitarias no sustituyen verificar las interacciones reales.
+En particular, React Flow tuvo antes un fallo de doble manejo de clic que seleccionaba y deseleccionaba una ficha de inmediato. Mantener las pruebas de interacción del navegador.
 
 ## Dirección recomendada
 
-El siguiente trabajo debe consolidar la biblioteca pequeña de puzzles antes de ampliar el producto:
+El siguiente trabajo debe revisar y mejorar el piloto diario antes de ampliar el producto:
 
-1. Revisar cada puzzle con un argumento matemático claro, supuestos explícitos y explicación comprensible en ambos idiomas.
-2. Verificar automáticamente integridad de datos, satisfacibilidad y conjunto/conteo de soluciones respecto al catálogo aprobado; revisar con cuidado simetrías y soluciones no intencionadas.
-3. Evaluar calidad de juego: deducciones necesarias, direccionalidad de las relaciones, dificultad conceptual y si el grafo promueve razonamiento en vez de prueba aleatoria.
-4. Mejorar pruebas de navegador para interacción de selección/intercambio, undo/reset, comprobar, cambio de puzzle y ambas traducciones.
-5. Elegir un primer puzzle que sea entretenido, además de válido, antes de tratar el puzzle de referencia técnica como nivel final.
+1. Ejecutar las pruebas y solver sobre los doce días; revisar manualmente todos los conteos aceptados.
+2. Revisar el contenido matemático y la dificultad con estudiantes de primeros semestres; en particular, evaluar el teorema espectral para decidir si pertenece al piloto.
+3. Verificar selección de días, archivo, fechas futuras sin contenido público, selector de práctica e idioma en navegador.
+4. Mantener un calendario editorial con explicaciones y fuentes, y reemplazar el calendario fijo antes de una publicación real.
+5. En cada fecha de lanzamiento, revisar y mover el borrador local al registro/catálogo público siguiendo `DAILY_PUZZLE_EDITORIAL.md`.
 
-No añadir hiperaristas o premisas compuestas hasta que se acuerde una ampliación formal del modelo. Por ejemplo, algunas implicaciones necesitan conjuntamente `P` y `Q` como premisas, algo que el modelo actual de arista binaria no expresa.
+No añadir hiperaristas o premisas compuestas hasta que se acuerde una ampliación formal del modelo. Por ejemplo, algunas implicaciones necesitan conjuntamente `P` y `Q` como premisas, algo que el modelo actual de arista binaria no expresa. Consultar `DAILY_PUZZLE_EDITORIAL.md` para fechas, temas, fuentes y reglas del lote diario.
 
 ## Forma de trabajar
 

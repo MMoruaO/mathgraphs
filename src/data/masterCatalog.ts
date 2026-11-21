@@ -32,6 +32,41 @@ export const masterCatalog: KnowledgeCatalog = {
       latex: "(X, d) \\text{ is a metric space}, \\, K \\subseteq X",
       description: "X is a metric space and K is a non-empty subset",
     },
+
+    propositional_context: {
+      id: "propositional_context",
+      latex: "P,Q,R,S \\text{ are propositions}",
+      description: "P, Q, R, and S are arbitrary propositions",
+      translations: {
+        es: {
+          description: "P, Q, R y S son proposiciones cualesquiera",
+          latex: "P,Q,R,S \\text{ son proposiciones}",
+        },
+      },
+    },
+    set_context: {
+      id: "set_context",
+      latex: "A,B,C \\subseteq U",
+      description: "A, B, and C are subsets of a common universe U",
+      translations: { es: { description: "A, B y C son subconjuntos de un mismo universo U" } },
+    },
+    preimage_context: {
+      id: "preimage_context",
+      latex: "f:X\\to Y,\\quad A,B\\subseteq Y",
+      description: "f maps X to Y, and A and B are subsets of Y",
+      translations: { es: { description: "f va de X a Y, y A y B son subconjuntos de Y" } },
+    },
+    vector_family_context: {
+      id: "vector_family_context",
+      latex: "V \\text{ is a vector space over } \\mathbb{F},\\quad B=(v_1,\\ldots,v_k)\\subseteq V",
+      description: "V is a vector space over a field F and B is a finite ordered family of vectors",
+      translations: {
+        es: {
+          description: "V es un espacio vectorial sobre un campo F y B es una familia finita ordenada de vectores",
+          latex: "V \\text{ es un espacio vectorial sobre } \\mathbb{F},\\quad B=(v_1,\\ldots,v_k)\\subseteq V",
+        },
+      },
+    },
   },
 
   statements: {
@@ -184,6 +219,115 @@ export const masterCatalog: KnowledgeCatalog = {
           latex: "K \\text{ es totalmente acotado}",
         },
       },
+    },
+
+    // --- Introductory logic and set theory ---
+    LOGIC_AND_PQ: {
+      id: "LOGIC_AND_PQ",
+      latex: "P \\land Q",
+      description: "P and Q are both true",
+      translations: { es: { description: "P y Q son verdaderas" } },
+    },
+    LOGIC_P: {
+      id: "LOGIC_P",
+      latex: "P",
+      description: "P is true",
+      translations: { es: { description: "P es verdadera" } },
+    },
+    LOGIC_P_OR_R: {
+      id: "LOGIC_P_OR_R",
+      latex: "P \\lor R",
+      description: "At least one of P or R is true",
+      translations: { es: { description: "Al menos una de P o R es verdadera" } },
+    },
+    LOGIC_P_OR_R_OR_S: {
+      id: "LOGIC_P_OR_R_OR_S",
+      latex: "P \\lor R \\lor S",
+      description: "At least one of P, R, or S is true",
+      translations: { es: { description: "Al menos una de P, R o S es verdadera" } },
+    },
+    SET_DIFFERENCE_AB: {
+      id: "SET_DIFFERENCE_AB",
+      latex: "A \\setminus B",
+      description: "The elements in A that are not in B",
+      translations: { es: { description: "Los elementos de A que no pertenecen a B" } },
+    },
+    SET_INTERSECTION_AB: {
+      id: "SET_INTERSECTION_AB",
+      latex: "A \\cap B",
+      description: "The elements common to A and B",
+      translations: { es: { description: "Los elementos comunes a A y B" } },
+    },
+    SET_A: {
+      id: "SET_A",
+      latex: "A",
+      description: "The set A",
+      translations: { es: { description: "El conjunto A" } },
+    },
+    SET_UNION_AB: {
+      id: "SET_UNION_AB",
+      latex: "A \\cup B",
+      description: "The elements that belong to A or B",
+      translations: { es: { description: "Los elementos que pertenecen a A o a B" } },
+    },
+    SET_PREIMAGE_INTERSECTION: {
+      id: "SET_PREIMAGE_INTERSECTION",
+      latex: "f^{-1}(A \\cap B)",
+      description: "The preimage of the intersection of A and B",
+      translations: { es: { description: "La preimagen de la intersección de A y B" } },
+    },
+    SET_INTERSECTION_PREIMAGES: {
+      id: "SET_INTERSECTION_PREIMAGES",
+      latex: "f^{-1}(A) \\cap f^{-1}(B)",
+      description: "The intersection of the preimages of A and B",
+      translations: { es: { description: "La intersección de las preimágenes de A y B" } },
+    },
+    SET_PREIMAGE_UNION: {
+      id: "SET_PREIMAGE_UNION",
+      latex: "f^{-1}(A \\cup B)",
+      description: "The preimage of the union of A and B",
+      translations: { es: { description: "La preimagen de la unión de A y B" } },
+    },
+    SET_UNION_PREIMAGES: {
+      id: "SET_UNION_PREIMAGES",
+      latex: "f^{-1}(A) \\cup f^{-1}(B)",
+      description: "The union of the preimages of A and B",
+      translations: { es: { description: "La unión de las preimágenes de A y B" } },
+    },
+    VEC_BASIS: {
+      id: "VEC_BASIS",
+      latex: "B \\text{ is a basis of } V",
+      description: "B is a basis of V",
+      translations: { es: { description: "B es una base de V", latex: "B \\text{ es una base de } V" } },
+    },
+    VEC_LI: {
+      id: "VEC_LI",
+      latex: "B \\text{ is linearly independent}",
+      description: "B is linearly independent",
+      translations: { es: { description: "B es linealmente independiente", latex: "B \\text{ es linealmente independiente}" } },
+    },
+    VEC_SPANS: {
+      id: "VEC_SPANS",
+      latex: "\\operatorname{span}(B)=V",
+      description: "B spans V",
+      translations: { es: { description: "B genera V" } },
+    },
+    VEC_UNIQUE_COORDINATES: {
+      id: "VEC_UNIQUE_COORDINATES",
+      latex: "\\text{Every } v\\in V \\text{ has a unique representation using } B",
+      description: "Every vector in V has a unique linear-combination representation using B",
+      translations: {
+        es: {
+          description: "Todo vector de V tiene una representación única como combinación lineal de B",
+          latex: "\\text{Todo } v\\in V \\text{ tiene representación única usando } B",
+        },
+      },
+    },
+    ANA_POLYNOMIAL: {
+      id: "ANA_POLYNOMIAL",
+      latex: "f \\text{ is a polynomial}",
+      description: "f is the restriction of a real polynomial to I",
+      translations: { es: { description: "f es la restricción de un polinomio real a I", latex: "f \\text{ es polinómica}" } },
     },
   },
 
@@ -426,6 +570,170 @@ export const masterCatalog: KnowledgeCatalog = {
       symmetric: false,
       justification:
         "Sequentially compact implies totally bounded.",
+    },
+
+    // === First-course logic and set relationships ===
+    {
+      id: "rel_logic_and_elim",
+      relation: "implies",
+      sourceStatementId: "LOGIC_AND_PQ",
+      targetStatementId: "LOGIC_P",
+      requiredAssumptions: ["propositional_context"],
+      symmetric: false,
+      justification: "If P and Q are both true, then P is true.",
+    },
+    {
+      id: "rel_logic_or_intro",
+      relation: "implies",
+      sourceStatementId: "LOGIC_P",
+      targetStatementId: "LOGIC_P_OR_R",
+      requiredAssumptions: ["propositional_context"],
+      symmetric: false,
+      justification: "If P is true, then at least one of P or R is true.",
+    },
+    {
+      id: "rel_logic_or_extend",
+      relation: "implies",
+      sourceStatementId: "LOGIC_P_OR_R",
+      targetStatementId: "LOGIC_P_OR_R_OR_S",
+      requiredAssumptions: ["propositional_context"],
+      symmetric: false,
+      justification: "If P or R is true, then P or R or S is true.",
+    },
+    {
+      id: "rel_set_difference_subset",
+      relation: "subset_of",
+      sourceStatementId: "SET_DIFFERENCE_AB",
+      targetStatementId: "SET_A",
+      requiredAssumptions: ["set_context"],
+      symmetric: false,
+      justification: "By definition, every element of A setminus B belongs to A.",
+    },
+    {
+      id: "rel_set_intersection_subset",
+      relation: "subset_of",
+      sourceStatementId: "SET_INTERSECTION_AB",
+      targetStatementId: "SET_A",
+      requiredAssumptions: ["set_context"],
+      symmetric: false,
+      justification: "Every element common to A and B is in A.",
+    },
+    {
+      id: "rel_set_subset_union",
+      relation: "subset_of",
+      sourceStatementId: "SET_A",
+      targetStatementId: "SET_UNION_AB",
+      requiredAssumptions: ["set_context"],
+      symmetric: false,
+      justification: "Every element of A belongs to the union A union B.",
+    },
+    {
+      id: "rel_preimage_intersection_equals",
+      relation: "equals",
+      sourceStatementId: "SET_PREIMAGE_INTERSECTION",
+      targetStatementId: "SET_INTERSECTION_PREIMAGES",
+      requiredAssumptions: ["preimage_context"],
+      symmetric: true,
+      justification:
+        "For x in X, x is in either set exactly when f(x) belongs to both A and B.",
+    },
+    {
+      id: "rel_preimage_union_equals",
+      relation: "equals",
+      sourceStatementId: "SET_PREIMAGE_UNION",
+      targetStatementId: "SET_UNION_PREIMAGES",
+      requiredAssumptions: ["preimage_context"],
+      symmetric: true,
+      justification:
+        "For x in X, f(x) belongs to A union B exactly when it belongs to A or to B.",
+    },
+    {
+      id: "rel_preimage_intersection_subset_union",
+      relation: "subset_of",
+      sourceStatementId: "SET_PREIMAGE_INTERSECTION",
+      targetStatementId: "SET_PREIMAGE_UNION",
+      requiredAssumptions: ["preimage_context"],
+      symmetric: false,
+      justification: "A intersection B is a subset of A union B, and preimages preserve inclusion.",
+    },
+    {
+      id: "rel_preimage_intersection_subset_union_expanded",
+      relation: "subset_of",
+      sourceStatementId: "SET_PREIMAGE_INTERSECTION",
+      targetStatementId: "SET_UNION_PREIMAGES",
+      requiredAssumptions: ["preimage_context"],
+      symmetric: false,
+      justification:
+        "The preimage of A intersection B equals the intersection of the preimages, which is contained in their union.",
+    },
+    {
+      id: "rel_intersection_preimages_subset_preimage_union",
+      relation: "subset_of",
+      sourceStatementId: "SET_INTERSECTION_PREIMAGES",
+      targetStatementId: "SET_PREIMAGE_UNION",
+      requiredAssumptions: ["preimage_context"],
+      symmetric: false,
+      justification:
+        "The intersection of the preimages is contained in the preimage of A union B.",
+    },
+    {
+      id: "rel_intersection_preimages_subset_union_preimages",
+      relation: "subset_of",
+      sourceStatementId: "SET_INTERSECTION_PREIMAGES",
+      targetStatementId: "SET_UNION_PREIMAGES",
+      requiredAssumptions: ["preimage_context"],
+      symmetric: false,
+      justification:
+        "The intersection of two sets is contained in their union.",
+    },
+
+    // === First-course vector spaces ===
+    {
+      id: "rel_basis_implies_independent",
+      relation: "implies",
+      sourceStatementId: "VEC_BASIS",
+      targetStatementId: "VEC_LI",
+      requiredAssumptions: ["vector_family_context"],
+      symmetric: false,
+      justification: "Linear independence is one of the two defining properties of a basis.",
+    },
+    {
+      id: "rel_basis_implies_spanning",
+      relation: "implies",
+      sourceStatementId: "VEC_BASIS",
+      targetStatementId: "VEC_SPANS",
+      requiredAssumptions: ["vector_family_context"],
+      symmetric: false,
+      justification: "A basis spans the vector space by definition.",
+    },
+    {
+      id: "rel_basis_equiv_unique_coordinates",
+      relation: "equivalent",
+      sourceStatementId: "VEC_BASIS",
+      targetStatementId: "VEC_UNIQUE_COORDINATES",
+      requiredAssumptions: ["vector_family_context"],
+      symmetric: true,
+      justification:
+        "A family is a basis exactly when every vector has a unique linear-combination representation using that family.",
+    },
+    {
+      id: "rel_unique_coordinates_implies_independent",
+      relation: "implies",
+      sourceStatementId: "VEC_UNIQUE_COORDINATES",
+      targetStatementId: "VEC_LI",
+      requiredAssumptions: ["vector_family_context"],
+      symmetric: false,
+      justification:
+        "If the family had a nontrivial zero linear combination, any representation could be changed by that relation, contradicting uniqueness.",
+    },
+    {
+      id: "rel_polynomial_implies_c1",
+      relation: "implies",
+      sourceStatementId: "ANA_POLYNOMIAL",
+      targetStatementId: "ANA_C1",
+      requiredAssumptions: ["real_function_open_interval"],
+      symmetric: false,
+      justification: "Every real polynomial has a continuous derivative on every open interval.",
     },
   ],
 

@@ -3,6 +3,13 @@
   "title": "Ortogonalidad e Invertibilidad",
   "topic": "linear_algebra",
   "difficulty": "medium",
+  "sources": [
+    {
+      "citation": "Jim Hefferon, Linear Algebra, chapters on linear maps, determinants, and the Invertible Matrix Theorem.",
+      "url": "https://hefferon.net/linearalgebra/",
+      "note": "Reference for the matrix criteria. The puzzle wording and graph are original to MathGraphs."
+    }
+  ],
     "description": "Distingue la condición suficiente de ortogonalidad y ordena tres criterios equivalentes de invertibilidad.",
   "context": {
     "id": "ctx_real_square",

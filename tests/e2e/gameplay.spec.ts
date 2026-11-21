@@ -2,15 +2,15 @@ import { test, expect } from "@playwright/test";
 
 test.describe("MathGraphs Browser Interaction & Gameplay", () => {
   test.beforeEach(async ({ page }) => {
+    await page.clock.install({ time: new Date("2026-11-21T12:00:00Z") });
     await page.goto("/");
   });
 
   test("loads the application with default puzzle", async ({ page }) => {
     await expect(page.locator(".brand-name")).toHaveText("MathGraphs");
-    await expect(page.locator(".puzzle-title")).toContainText("Matrices Idempotentes y Proyecciones");
+    await expect(page.locator(".puzzle-title")).toContainText("Intersección, conjunto y unión");
     await expect(page.locator(".context-math")).toContainText("A");
-    // Verify 5 slots are rendered
-    await expect(page.locator(".statement-node")).toHaveCount(5);
+    await expect(page.locator(".statement-node")).toHaveCount(3);
   });
 
   test("switches the interface and puzzle content between Spanish and English", async ({ page }) => {
@@ -18,13 +18,16 @@ test.describe("MathGraphs Browser Interaction & Gameplay", () => {
 
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await expect(page).toHaveTitle("MathGraphs — Deductive Mathematical Puzzles");
-    await expect(page.locator(".puzzle-title")).toContainText("Idempotent Matrices and Projections");
-    await expect(page.locator(".statement-node").filter({ hasText: "s4" })).toContainText("is diagonalizable over");
+    await expect(page.locator(".puzzle-title")).toContainText("Intersection, set, and union");
     await expect(page.getByRole("button", { name: "Check" })).toBeVisible();
     await expect(page.locator(".feedback-banner")).toContainText("Select one slot");
+    await page.getByRole("button", { name: "Daily challenge" }).click();
+    await expect(page.getByRole("heading", { name: "Challenge calendar" })).toBeVisible();
+    await expect(page.locator(".daily-date-upcoming").first()).toContainText("Locked until its date");
+    await page.getByRole("button", { name: "Close" }).click();
 
     await page.reload();
-    await expect(page.locator(".puzzle-title")).toContainText("Idempotent Matrices and Projections");
+    await expect(page.locator(".puzzle-title")).toContainText("Intersection, set, and union");
 
     await page.getByRole("button", { name: "Puzzles" }).click();
     await expect(page.getByRole("heading", { name: "Mathematical puzzle library" })).toBeVisible();
@@ -40,7 +43,7 @@ test.describe("MathGraphs Browser Interaction & Gameplay", () => {
     await expect(page.locator(".puzzle-title")).toContainText("Jerarquía de Regularidad y Continuidad");
     await expect(page).toHaveTitle("MathGraphs — Rompecabezas matemáticos");
     await page.reload();
-    await expect(page.locator(".puzzle-title")).toContainText("Matrices Idempotentes y Proyecciones");
+    await expect(page.locator(".puzzle-title")).toContainText("Intersección, conjunto y unión");
   });
 
   test("click-to-swap mechanic exchanges two tiles and increments moves", async ({ page }) => {
@@ -112,14 +115,14 @@ test.describe("MathGraphs Browser Interaction & Gameplay", () => {
     };
 
     await swap("s1", "s2");
-    await swap("s3", "s5");
-    await swap("s3", "s4");
+    await swap("s2", "s3");
     await page.getByRole("button", { name: /Verificar/i }).click();
 
     await expect(page.getByRole("heading", { name: /Configuración Matemática Válida/i })).toBeVisible();
     await expect(page.locator(".modal-explanation")).toBeVisible();
+    await expect(page.locator(".puzzle-sources a")).toHaveAttribute("href", "https://hefferon.net/proofs/");
     await page.getByRole("button", { name: /Siguiente Puzzle/i }).click();
-    await expect(page.locator(".puzzle-title")).toContainText("Jerarquía de Regularidad y Continuidad");
+    await expect(page.locator(".puzzle-title")).toContainText("Matrices Idempotentes y Proyecciones");
   });
 
   test("level selector opens, switches puzzle, and resets state", async ({ page }) => {
@@ -127,7 +130,7 @@ test.describe("MathGraphs Browser Interaction & Gameplay", () => {
     await puzzlesBtn.click();
 
     await expect(page.locator(".modal-card-wide")).toBeVisible();
-    await expect(page.locator(".puzzle-card")).toHaveCount(4);
+    await expect(page.locator(".puzzle-card")).toHaveCount(10);
 
     // Select the second puzzle: "Jerarquía de Regularidad y Continuidad"
     const analysisCard = page.locator(".puzzle-card").filter({ hasText: "Jerarquía de Regularidad" });
@@ -140,5 +143,21 @@ test.describe("MathGraphs Browser Interaction & Gameplay", () => {
     await expect(page.locator(".statement-node")).toHaveCount(4);
     // Move count reset to 0
     await expect(page.locator(".stat-value").first()).toHaveText("0");
+  });
+
+  test("daily calendar opens archived challenges and keeps future dates locked", async ({ page }) => {
+    await page.getByRole("button", { name: "Reto diario" }).click();
+    await expect(page.getByRole("heading", { name: "Calendario de retos" })).toBeVisible();
+    await expect(page.locator(".daily-date-archived")).toHaveCount(6);
+    await expect(page.locator(".daily-date-today")).toHaveCount(1);
+    await expect(page.locator(".daily-date-upcoming")).toHaveCount(5);
+    await expect(page.locator(".daily-date-upcoming").first()).toBeDisabled();
+    await expect(page.locator(".daily-date-upcoming .daily-date-title")).toHaveText(
+      Array(5).fill("Bloqueado hasta su fecha")
+    );
+
+    await page.locator('.daily-date-card:has(time[datetime="2026-11-16"])').click();
+    await expect(page.locator(".puzzle-title")).toContainText("Diferencia, conjunto y unión");
+    await expect(page.getByRole("heading", { name: "Calendario de retos" })).not.toBeVisible();
   });
 });

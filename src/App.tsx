@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { masterCatalog } from "./data/masterCatalog.js";
-import { puzzleRegistry, getDefaultPuzzle } from "./data/puzzleRegistry.js";
+import { puzzleRegistry, getDefaultPuzzle, getPuzzleById } from "./data/puzzleRegistry.js";
+import {
+  dailySchedule,
+  getDailyEntryForDate,
+  getUtcDateKey,
+} from "./data/dailySchedule.js";
 import { useGameState } from "./state/useGameState.js";
 import { PuzzleHeader } from "./components/PuzzleHeader.js";
 import { GraphBoard } from "./components/GraphBoard.js";
@@ -8,11 +13,24 @@ import { GameControls } from "./components/GameControls.js";
 import { ValidationFeedback } from "./components/ValidationFeedback.js";
 import { VictoryModal } from "./components/VictoryModal.js";
 import { LevelSelectorModal } from "./components/LevelSelectorModal.js";
+import { DailyArchiveModal } from "./components/DailyArchiveModal.js";
 import { getInitialLanguage, localizePuzzle, messages } from "./i18n.js";
 
 export const App: React.FC = () => {
   const [isSelectorOpen, setIsSelectorOpen] = useState(false);
+  const [isDailyArchiveOpen, setIsDailyArchiveOpen] = useState(false);
   const [language, setLanguage] = useState(getInitialLanguage);
+  const [today, setToday] = useState(getUtcDateKey);
+  const todayEntry = getDailyEntryForDate(today);
+  const initialPuzzle = (todayEntry?.puzzleId ? getPuzzleById(todayEntry.puzzleId) : undefined)
+    ?? getDefaultPuzzle();
+  const [selectedDailyDate, setSelectedDailyDate] = useState<string | null>(
+    todayEntry?.puzzleId ? todayEntry.date : null
+  );
+  const availablePuzzles = puzzleRegistry.filter((candidate) => {
+    const scheduledFor = dailySchedule.find((entry) => entry.puzzleId === candidate.id);
+    return !scheduledFor || scheduledFor.date <= today;
+  });
 
   const {
     state,
@@ -23,7 +41,7 @@ export const App: React.FC = () => {
     reset,
     check,
     clearSelection,
-  } = useGameState(getDefaultPuzzle(), masterCatalog);
+  } = useGameState(initialPuzzle, masterCatalog);
 
   const displayPuzzle = localizePuzzle(puzzle, language);
 
@@ -36,6 +54,14 @@ export const App: React.FC = () => {
       // The language remains usable for this session if browser storage is unavailable.
     }
   }, [language]);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      const currentUtcDate = getUtcDateKey();
+      setToday((previousDate) => previousDate === currentUtcDate ? previousDate : currentUtcDate);
+    }, 60_000);
+    return () => window.clearInterval(intervalId);
+  }, []);
 
   // Keyboard shortcut support: Ctrl+Z for Undo
   useEffect(() => {
@@ -50,9 +76,35 @@ export const App: React.FC = () => {
   }, [undo]);
 
   const handleNextPuzzle = () => {
-    const currentIndex = puzzleRegistry.findIndex((p) => p.id === puzzle.id);
-    const nextIndex = (currentIndex + 1) % puzzleRegistry.length;
-    setPuzzle(puzzleRegistry[nextIndex]);
+    if (selectedDailyDate) {
+      const nextDailyEntry = dailySchedule.find(
+        (entry) => entry.date > selectedDailyDate && entry.date <= getUtcDateKey()
+      );
+      const nextDailyPuzzle = nextDailyEntry?.puzzleId
+        ? getPuzzleById(nextDailyEntry.puzzleId)
+        : undefined;
+      if (nextDailyEntry && nextDailyPuzzle) {
+        setPuzzle(nextDailyPuzzle);
+        setSelectedDailyDate(nextDailyEntry.date);
+        return;
+      }
+    }
+
+    const currentIndex = availablePuzzles.findIndex((p) => p.id === puzzle.id);
+    const nextIndex = (currentIndex + 1) % availablePuzzles.length;
+    setPuzzle(availablePuzzles[nextIndex] ?? getDefaultPuzzle());
+    setSelectedDailyDate(null);
+  };
+
+  const handleSelectDailyPuzzle = (entry: (typeof dailySchedule)[number], selectedPuzzle: (typeof puzzleRegistry)[number]) => {
+    setPuzzle(selectedPuzzle);
+    setSelectedDailyDate(entry.date);
+    setIsDailyArchiveOpen(false);
+  };
+
+  const handleSelectPracticePuzzle = (selectedPuzzle: (typeof puzzleRegistry)[number]) => {
+    setPuzzle(selectedPuzzle);
+    setSelectedDailyDate(null);
   };
 
   return (
@@ -63,6 +115,7 @@ export const App: React.FC = () => {
         language={language}
         onLanguageChange={setLanguage}
         onOpenSelector={() => setIsSelectorOpen(true)}
+        onOpenDailyArchive={() => setIsDailyArchiveOpen(true)}
       />
 
       <main className="board-main">
@@ -108,11 +161,21 @@ export const App: React.FC = () => {
 
       <LevelSelectorModal
         isOpen={isSelectorOpen}
-        puzzles={puzzleRegistry}
+        puzzles={availablePuzzles}
         currentPuzzleId={puzzle.id}
         language={language}
-        onSelectPuzzle={setPuzzle}
+        onSelectPuzzle={handleSelectPracticePuzzle}
         onClose={() => setIsSelectorOpen(false)}
+      />
+
+      <DailyArchiveModal
+        isOpen={isDailyArchiveOpen}
+        entries={dailySchedule}
+        puzzles={puzzleRegistry}
+        currentDate={selectedDailyDate}
+        language={language}
+        onSelect={handleSelectDailyPuzzle}
+        onClose={() => setIsDailyArchiveOpen(false)}
       />
     </div>
   );

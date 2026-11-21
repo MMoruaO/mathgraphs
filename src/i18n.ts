@@ -7,6 +7,17 @@ export interface UiMessages {
   switchTo: string;
   documentTitle: string;
   puzzleLibrary: string;
+  dailyChallenge: string;
+  dailyArchiveTitle: string;
+  dailyArchiveDescription: string;
+  dailyPlay: string;
+  dailyToday: string;
+  dailyArchived: string;
+  dailyUpcoming: string;
+  dailyUnavailable: string;
+  dailyLocked: string;
+  dailyDateLabel: string;
+  sourcesTitle: string;
   puzzleLibraryTitle: string;
   puzzleLibraryDescription: string;
   choosePuzzle: string;
@@ -52,6 +63,17 @@ export const messages: Record<Language, UiMessages> = {
     switchTo: "Cambiar idioma a inglés",
     documentTitle: "MathGraphs — Rompecabezas matemáticos",
     puzzleLibrary: "Puzzles",
+    dailyChallenge: "Reto diario",
+    dailyArchiveTitle: "Calendario de retos",
+    dailyArchiveDescription: "Los retos publicados siguen disponibles. Los retos futuros se desbloquean al publicarse en su fecha UTC.",
+    dailyPlay: "Jugar reto",
+    dailyToday: "Hoy",
+    dailyArchived: "Archivo",
+    dailyUpcoming: "Próximo",
+    dailyUnavailable: "No publicado",
+    dailyLocked: "Bloqueado hasta su fecha",
+    dailyDateLabel: "Fecha del reto",
+    sourcesTitle: "Referencias matemáticas",
     puzzleLibraryTitle: "Biblioteca de puzzles matemáticos",
     puzzleLibraryDescription: "Selecciona un reto lógico universitario para resolver.",
     choosePuzzle: "Seleccionar puzzle",
@@ -93,6 +115,7 @@ export const messages: Record<Language, UiMessages> = {
       abstract_algebra: "Álgebra abstracta",
       topology: "Topología",
       logic: "Lógica",
+      set_theory: "Teoría de conjuntos",
     },
     difficulties: { easy: "Fácil", medium: "Intermedio", hard: "Difícil" },
   },
@@ -101,6 +124,17 @@ export const messages: Record<Language, UiMessages> = {
     switchTo: "Switch language to Spanish",
     documentTitle: "MathGraphs — Deductive Mathematical Puzzles",
     puzzleLibrary: "Puzzles",
+    dailyChallenge: "Daily challenge",
+    dailyArchiveTitle: "Challenge calendar",
+    dailyArchiveDescription: "Published challenges remain available. Upcoming challenges unlock when published on their UTC date.",
+    dailyPlay: "Play challenge",
+    dailyToday: "Today",
+    dailyArchived: "Archive",
+    dailyUpcoming: "Upcoming",
+    dailyUnavailable: "Not published",
+    dailyLocked: "Locked until its date",
+    dailyDateLabel: "Challenge date",
+    sourcesTitle: "Mathematical references",
     puzzleLibraryTitle: "Mathematical puzzle library",
     puzzleLibraryDescription: "Choose a university-level logic challenge to solve.",
     choosePuzzle: "Select puzzle",
@@ -142,6 +176,7 @@ export const messages: Record<Language, UiMessages> = {
       abstract_algebra: "Abstract algebra",
       topology: "Topology",
       logic: "Logic",
+      set_theory: "Set theory",
     },
     difficulties: { easy: "Easy", medium: "Medium", hard: "Hard" },
   },

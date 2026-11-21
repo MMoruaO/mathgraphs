@@ -9,6 +9,7 @@ export interface PuzzleHeaderProps {
   language: Language;
   onLanguageChange: (language: Language) => void;
   onOpenSelector: () => void;
+  onOpenDailyArchive: () => void;
 }
 
 export const PuzzleHeader: React.FC<PuzzleHeaderProps> = ({
@@ -17,6 +18,7 @@ export const PuzzleHeader: React.FC<PuzzleHeaderProps> = ({
   language,
   onLanguageChange,
   onOpenSelector,
+  onOpenDailyArchive,
 }) => {
   const text = messages[language];
 
@@ -30,6 +32,15 @@ export const PuzzleHeader: React.FC<PuzzleHeaderProps> = ({
         <span className="brand-tag">{text.topics[puzzle.topic]}</span>
         <button
           className="btn btn-secondary btn-sm"
+          type="button"
+          onClick={onOpenDailyArchive}
+          title={text.dailyChallenge}
+        >
+          <span className="btn-icon">▦</span> {text.dailyChallenge}
+        </button>
+        <button
+          className="btn btn-secondary btn-sm"
+          type="button"
           onClick={onOpenSelector}
           title={text.puzzleLibrary}
         >
@@ -66,7 +77,10 @@ export const PuzzleHeader: React.FC<PuzzleHeaderProps> = ({
           <div className="context-math">
             <MathRenderer
               math={puzzle.context.assumptions
-                .map((assumptionId) => catalog.assumptions[assumptionId]?.latex ?? assumptionId)
+                .map((assumptionId) => {
+                  const assumption = catalog.assumptions[assumptionId];
+                  return assumption?.translations?.[language]?.latex ?? assumption?.latex ?? assumptionId;
+                })
                 .join(", ")}
             />
           </div>

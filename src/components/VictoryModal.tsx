@@ -67,6 +67,21 @@ export const VictoryModal: React.FC<VictoryModalProps> = ({
           </div>
         )}
 
+        {puzzle.sources && puzzle.sources.length > 0 && (
+          <div className="puzzle-sources">
+            <h3>{text.sourcesTitle}</h3>
+            <ul>
+              {puzzle.sources.map((source) => (
+                <li key={`${source.url}-${source.citation}`}>
+                  <a href={source.url} target="_blank" rel="noreferrer">
+                    {source.citation}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         <div className="modal-actions gap-2">
           <button className="btn btn-secondary" onClick={onReset}>
             {text.retry}

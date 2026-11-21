@@ -1204,3 +1204,144 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Daily challenge archive */
+.daily-archive-card {
+  width: min(980px, 96vw);
+}
+
+.daily-archive-header {
+  margin-bottom: 1rem;
+}
+
+.daily-archive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+  gap: 0.7rem;
+  max-height: 58vh;
+  overflow-y: auto;
+  padding: 0.2rem;
+}
+
+.daily-date-card {
+  min-width: 0;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.45rem;
+  padding: 0.8rem;
+  border: 1px solid #9a9a9a;
+  border-radius: 2px;
+  background: linear-gradient(#fff, #f2f2f2);
+  color: #202020;
+  text-align: left;
+  box-shadow: inset 1px 1px #fff, inset -1px -1px #d4d4d4;
+  font: inherit;
+}
+
+.daily-date-card:not(:disabled) {
+  cursor: pointer;
+}
+
+.daily-date-card:not(:disabled):hover,
+.daily-date-card:not(:disabled):focus-visible {
+  outline: 2px solid #252525;
+  outline-offset: 1px;
+  background: #fff;
+}
+
+.daily-date-selected {
+  border: 2px solid #171717;
+}
+
+.daily-date-upcoming {
+  border-style: dashed;
+  background: #e9e9e9;
+  color: #555;
+  box-shadow: inset 1px 1px #f8f8f8;
+}
+
+.daily-date-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  color: #555;
+  font-family: Tahoma, "Segoe UI", Arial, sans-serif;
+  font-size: 0.78rem;
+  text-transform: capitalize;
+}
+
+.daily-status-badge {
+  border: 1px solid #777;
+  background: #ececec;
+  padding: 0.12rem 0.35rem;
+  color: #333;
+  font-size: 0.7rem;
+  text-transform: none;
+}
+
+.daily-date-today .daily-status-badge {
+  border-color: #222;
+  background: #222;
+  color: #fff;
+}
+
+.daily-date-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.daily-date-description {
+  color: #555;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.daily-date-meta,
+.daily-play-label {
+  margin-top: auto;
+  color: #555;
+  font-size: 0.75rem;
+}
+
+.daily-play-label {
+  color: #111;
+  font-weight: 700;
+}
+
+.puzzle-sources {
+  border-top: 1px solid #aaa;
+  margin-top: 1rem;
+  padding-top: 0.7rem;
+  font-size: 0.82rem;
+}
+
+.puzzle-sources h3 {
+  margin: 0 0 0.4rem;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.puzzle-sources ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.puzzle-sources a {
+  color: #222;
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .daily-archive-grid {
+    grid-template-columns: 1fr;
+    max-height: 62vh;
+  }
+
+  .daily-date-card {
+    min-height: 110px;
+  }
+}

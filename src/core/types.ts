@@ -83,6 +83,7 @@ export type PuzzleTopic =
   | "calculus"
   | "abstract_algebra"
   | "topology"
+  | "set_theory"
   | "logic";
 
 export type PuzzleDifficulty = "easy" | "medium" | "hard";
@@ -91,6 +92,12 @@ export interface PuzzleExplanationItem {
   title: string;
   math?: string;
   description: string;
+}
+
+export interface PuzzleSourceReference {
+  citation: string;
+  url: string;
+  note: string;
 }
 
 export interface PuzzleTranslation {
@@ -107,6 +114,7 @@ export interface PuzzleDefinition {
   title: string;
   topic: PuzzleTopic;
   difficulty?: PuzzleDifficulty;
+  sources?: PuzzleSourceReference[];
   description?: string;
   context: PuzzleContext;
   slots: Slot[];

@@ -29,6 +29,7 @@ MathGraphs is architected as an offline-first, client-rendered static web applic
 │                   UI Layer (React)                     │
 │  - App.tsx, puzzle selector, language switch, controls  │
 │    (Check/Reset/Undo)                                   │
+│  - Daily archive modal with UTC date availability       │
 │  - GraphView (@xyflow/react canvas)                    │
 │  - StatementNode (KaTeX math display + selection halo) │
 └──────────────────────────┬─────────────────────────────┘
@@ -55,6 +56,7 @@ MathGraphs is architected as an offline-first, client-rendered static web applic
 │           Data & Knowledge Catalog Layer (JSON/TS)     │
 │  - Puzzle registry, curated relations, statements,      │
 │    hypotheses, bilingual content, and puzzle JSON       │
+│  - Fixed pilot schedule mapping UTC dates to puzzle IDs│
 │  - Pre-indexed lookup maps: (rel, src, tgt) -> Record  │
 │  - Integrity validator: detects contradictory entries  │
 └────────────────────────────────────────────────────────┘
@@ -78,6 +80,7 @@ mathgraphs/
 ├── AGENTS.md
 ├── docs/
 │   ├── ARCHITECTURE.md
+│   ├── DAILY_PUZZLE_EDITORIAL.md
 │   ├── GAME_RULES.md
 │   └── MATH_SPEC.md
 ├── src/
@@ -89,6 +92,7 @@ mathgraphs/
 │   ├── data/
 │   │   ├── masterCatalog.ts  # Shared assumptions, statements, relations
 │   │   ├── puzzleRegistry.ts # Puzzle lookup and default selection
+│   │   ├── dailySchedule.ts  # UTC date mapping for the test pilot
 │   │   └── puzzles/          # Declarative JSON puzzle definitions
 │   ├── state/
 │   │   └── useGameState.ts    # React hook managing board state, bijection & undo history
@@ -98,7 +102,8 @@ mathgraphs/
 │   │   ├── MathRenderer.tsx   # Isolated KaTeX component
 │   │   ├── GameControls.tsx   # Buttons: Check, Undo, Reset
 │   │   ├── VictoryModal.tsx   # Success summary and puzzle progression
-│   │   └── LevelSelectorModal.tsx # Puzzle library and switching
+│   │   ├── LevelSelectorModal.tsx # Puzzle library and switching
+│   │   └── DailyArchiveModal.tsx # Daily calendar, archive, locked dates
 │   ├── App.tsx
 │   ├── main.tsx
 │   └── index.css
@@ -122,7 +127,8 @@ mathgraphs/
 ## 5. Data Flow and Interaction Lifecycle
 
 1. **Initialization and puzzle selection:**
-   - `App.tsx` loads the default definition from `puzzleRegistry.ts`.
+   - `App.tsx` resolves today's UTC date through `dailySchedule.ts` and loads its puzzle when the pilot contains that date; otherwise it falls back to `getDefaultPuzzle()`.
+   - `DailyArchiveModal` exposes archived and current entries and disables upcoming dates; the practice selector omits scheduled puzzles until their release date.
    - `useGameState` initializes the assignment and resets its counters, history, and validation state whenever a different puzzle is selected.
    - Initializes history stack `[initialAssignment]`, `selectedSlotId = null`, `validationResult = null`.
 2. **Player Interaction (Click-to-Swap):**
@@ -167,6 +173,7 @@ mathgraphs/
 
 ## 7. Deferred Infrastructure and Future Extensibility
 
+- The November 2026 schedule is a fixed interface/content pilot. Future schedule entries have no puzzle ID, and unpublished drafts stay in the local Git-ignored `daily-drafts/` directory, outside the public catalog and app bundle. The current manual release process is not a production publishing pipeline. See `DAILY_PUZZLE_EDITORIAL.md`.
 - **Multi-Premise Constraints:** Hyperedges or multi-antecedent constraint models are documented in `MATH_SPEC.md` Section 4 and deferred for post-MVP.
 - **Python Generation Tooling:** Offline generator will emit JSON adhering directly to `PuzzleDefinition` schema.
 - **Persistence, Accounts, and Monetization:** Strictly out of scope for MVP.

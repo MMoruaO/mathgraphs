@@ -109,14 +109,24 @@ export interface ConstraintEdge {
 export interface PuzzleDefinition {
   id: string;                    // e.g., "linear-algebra-idempotent-01"
   title: string;
-  topic: "linear_algebra" | "calculus" | "abstract_algebra" | "topology";
+  topic: "linear_algebra" | "calculus" | "abstract_algebra" | "topology" | "set_theory" | "logic";
+  difficulty?: "easy" | "medium" | "hard";
   context: PuzzleContext;
   slots: Slot[];
   edges: ConstraintEdge[];
   tiles: Tile[];                 // Set of physical tiles provided
   initialAssignment: Record<string, string>; // slotId -> tileId (bijection)
+  sources?: PuzzleSourceReference[]; // Editorial provenance; never used by validation
+}
+
+export interface PuzzleSourceReference {
+  citation: string;
+  url: string;
+  note: string;
 }
 ```
+
+The temporary daily pilot maps UTC dates to puzzle IDs in `src/data/dailySchedule.ts`. It is a fixed preview schedule, not the production release mechanism. See `DAILY_PUZZLE_EDITORIAL.md` for its content and source review rules.
 
 ---
 

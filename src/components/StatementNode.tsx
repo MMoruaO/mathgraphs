@@ -34,7 +34,6 @@ export const StatementNode: React.FC<{ data: StatementNodeData }> = ({ data }) =
       tabIndex={0}
       aria-pressed={isSelected}
       aria-label={`Slot ${slotId}: ${description || latex}`}
-      onClick={() => onSelectSlot(slotId)}
       onKeyDown={handleKeyDown}
       className={`statement-node ${isSelected ? "statement-node-selected" : ""}`}
     >

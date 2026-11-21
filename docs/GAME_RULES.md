@@ -91,14 +91,17 @@ A puzzle is defined by its mathematical constraints, **not by an author-mandated
 
 ---
 
-## 6. MVP Scope and Guardrails
+## 6. Prototype Scope and Guardrails
 
-### Included in MVP:
-- Exactly one fixed linear algebra graph puzzle (4–5 nodes) focusing on real square matrices ($A \in M_n(\mathbb{R}), n \ge 1$) and properties of idempotent matrices.
+### Current playable prototype:
+- A small, curated library of declarative puzzles covering idempotent matrices, an analysis hierarchy, orthogonality and invertibility, and compactness in metric spaces.
+- Puzzle definitions, contexts, statements, and graph topology are data-driven so the UI can switch puzzles without changing the game engine.
 - Click-to-swap tile interaction.
 - Undo and Reset controls.
 - Explicit manual "Check" validation with granular edge status (`verified`, `not_verified`, `invalid`, `incomplete`).
 - Victory modal upon satisfying all constraints.
+
+The library is an early prototype, not a claim that all puzzle content or difficulty has been fully reviewed for publication. Each puzzle's assumptions, relation evidence, and solution multiplicity require mathematical review.
 
 ### Explicitly Deferred:
 - Compound statements, hyperedges, or multi-premise inference edges (see `MATH_SPEC.md` Section 4).

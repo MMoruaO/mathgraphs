@@ -1,0 +1,69 @@
+{
+  "id": "linear-algebra-invertibility-02",
+  "title": "Ortogonalidad e Invertibilidad",
+  "topic": "linear_algebra",
+  "difficulty": "medium",
+    "description": "Distingue la condición suficiente de ortogonalidad y ordena tres criterios equivalentes de invertibilidad.",
+  "context": {
+    "id": "ctx_real_square",
+    "name": "Matrices Cuadradas Reales",
+    "assumptions": ["matrix_real_square"]
+  },
+  "slots": [
+    { "id": "s1", "position": { "x": 80, "y": 200 } },
+    { "id": "s2", "position": { "x": 270, "y": 200 } },
+    { "id": "s3", "position": { "x": 460, "y": 200 } },
+    { "id": "s4", "position": { "x": 650, "y": 200 } }
+  ],
+  "edges": [
+    {
+      "id": "e_s1_implies_s2",
+      "sourceSlotId": "s1",
+      "targetSlotId": "s2",
+      "relation": "implies"
+    },
+    {
+      "id": "e_s2_equiv_s3",
+      "sourceSlotId": "s2",
+      "targetSlotId": "s3",
+      "relation": "equivalent"
+    },
+    {
+      "id": "e_s3_equiv_s4",
+      "sourceSlotId": "s3",
+      "targetSlotId": "s4",
+      "relation": "equivalent"
+    }
+  ],
+  "tiles": [
+    { "id": "tile_la_orthogonal", "statementId": "LA_ORTHOGONAL" },
+    { "id": "tile_la_inv", "statementId": "LA_INV" },
+    { "id": "tile_la_ker", "statementId": "LA_KER" },
+    { "id": "tile_la_rank", "statementId": "LA_RANK" }
+  ],
+  "initialAssignment": {
+    "s1": "tile_la_rank",
+    "s2": "tile_la_orthogonal",
+    "s3": "tile_la_inv",
+    "s4": "tile_la_ker"
+  },
+  "explanation": {
+    "summary": "Una matriz ortogonal es invertible; la invertibilidad, el núcleo trivial y el rango completo son criterios equivalentes.",
+    "items": [
+      {
+        "title": "Implicación estricta",
+        "math": "A^{\\mathsf T}A=I \\implies \\det(A)\\ne0",
+        "description": "La recíproca es falsa: una matriz invertible no tiene por qué ser ortogonal."
+      },
+      {
+        "title": "Criterios equivalentes",
+        "math": "\\det(A)\\ne0 \\iff \\ker(A)=\\{0\\} \\iff \\operatorname{rank}(A)=n",
+        "description": "El teorema de la matriz invertible conecta estas tres condiciones para matrices cuadradas finitas."
+      },
+      {
+        "title": "Soluciones equivalentes",
+        "description": "Los tres criterios finales pueden intercambiarse entre sus posiciones: el puzzle tiene seis soluciones válidas."
+      }
+    ]
+  }
+}

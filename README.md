@@ -11,7 +11,9 @@ MathGraphs is a browser-based deductive puzzle game built around university-leve
   - `validator.ts`: Pure $O(|E|)$ assignment and edge constraint validator.
   - `solver.ts`: Exhaustive permutation solver for verification and test suites.
   - `fixture.ts`: Reference linear algebra catalog and prototype 5-node puzzle.
-- `tests/core/`: Vitest automated test suite.
+- `src/data/`: Curated master catalog, puzzle registry, and declarative puzzle JSON.
+- `src/state/` and `src/components/`: React game state and browser interface.
+- `tests/`: Vitest core/data/state tests and Playwright browser interaction tests.
 
 ## Running Tests Locally
 
@@ -25,12 +27,20 @@ Node.js (>= 18.0.0) and npm.
 npm install
 ```
 
-### Running Tests and Type Checking
+### Running Tests, Browser Checks, and Type Checking
 
 ```bash
 # Run all unit tests with Vitest
 npm test
 
+# Run browser interaction tests with Playwright (Chromium)
+npm run test:e2e
+
 # Run TypeScript strict typecheck
 npm run typecheck
+
+# Run the production build
+npm run build
 ```
+
+Vitest excludes `tests/e2e/`; Playwright uses `playwright.config.ts` and starts a local Vite server.

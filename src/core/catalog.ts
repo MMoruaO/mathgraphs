@@ -115,6 +115,14 @@ export function validateCatalogIntegrity(catalog: KnowledgeCatalog): void {
     }
     relationIds.add(rel.id);
 
+    const relationIsSymmetric =
+      rel.relation === "equivalent" || rel.relation === "equals";
+    if (rel.symmetric !== relationIsSymmetric) {
+      throw new CatalogIntegrityError(
+        `Relation '${rel.id}' has symmetric=${rel.symmetric}, but '${rel.relation}' relations must have symmetric=${relationIsSymmetric}.`
+      );
+    }
+
     if (!statementIds.has(rel.sourceStatementId)) {
       throw new CatalogIntegrityError(
         `Relation '${rel.id}' references unregistered sourceStatementId '${rel.sourceStatementId}'`

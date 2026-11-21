@@ -70,15 +70,36 @@ export interface ConstraintEdge {
   relation: RelationType;
 }
 
+export type PuzzleTopic =
+  | "linear_algebra"
+  | "calculus"
+  | "abstract_algebra"
+  | "topology"
+  | "logic";
+
+export type PuzzleDifficulty = "easy" | "medium" | "hard";
+
+export interface PuzzleExplanationItem {
+  title: string;
+  math?: string;
+  description: string;
+}
+
 export interface PuzzleDefinition {
   id: string;
   title: string;
-  topic: "linear_algebra" | "calculus" | "abstract_algebra" | "topology";
+  topic: PuzzleTopic;
+  difficulty?: PuzzleDifficulty;
+  description?: string;
   context: PuzzleContext;
   slots: Slot[];
   edges: ConstraintEdge[];
   tiles: Tile[];
   initialAssignment: Record<string, string>; // slotId -> tileId
+  explanation?: {
+    summary: string;
+    items: PuzzleExplanationItem[];
+  };
 }
 
 export type PuzzleAssignment = Record<string, string>; // slotId -> tileId

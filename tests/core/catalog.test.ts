@@ -25,6 +25,36 @@ describe("Catalog Integrity & Assumption Hierarchy", () => {
     expect(forwardRels[0].id).toBe("rel_P1_equiv_P5");
   });
 
+  it("rejects asymmetric relations marked as symmetric", () => {
+    const invalidCatalog: KnowledgeCatalog = {
+      ...linearAlgebraCatalog,
+      relations: linearAlgebraCatalog.relations.map((relation) =>
+        relation.id === "rel_P1_implies_P2"
+          ? { ...relation, symmetric: true }
+          : relation
+      ),
+    };
+
+    expect(() => validateCatalogIntegrity(invalidCatalog)).toThrow(
+      CatalogIntegrityError
+    );
+  });
+
+  it("requires symmetric relation types to be indexed in both directions", () => {
+    const invalidCatalog: KnowledgeCatalog = {
+      ...linearAlgebraCatalog,
+      relations: linearAlgebraCatalog.relations.map((relation) =>
+        relation.id === "rel_P1_equiv_P5"
+          ? { ...relation, symmetric: false }
+          : relation
+      ),
+    };
+
+    expect(() => validateCatalogIntegrity(invalidCatalog)).toThrow(
+      CatalogIntegrityError
+    );
+  });
+
   it("verifies that P4 not implies P1 has the valid 3x3 counterexample and rejects diag(2,0)", () => {
     const refP4 = linearAlgebraCatalog.refutations?.find(
       (r) => r.sourceStatementId === "P4" && r.targetStatementId === "P1"

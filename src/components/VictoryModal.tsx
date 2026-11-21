@@ -1,20 +1,27 @@
 import React from "react";
 import { MathRenderer } from "./MathRenderer.js";
+import { PuzzleDefinition } from "../core/types.js";
 
 export interface VictoryModalProps {
   isOpen: boolean;
+  puzzle: PuzzleDefinition;
   moveCount: number;
   checkCount: number;
   onReset: () => void;
+  onNextPuzzle?: () => void;
 }
 
 export const VictoryModal: React.FC<VictoryModalProps> = ({
   isOpen,
+  puzzle,
   moveCount,
   checkCount,
   onReset,
+  onNextPuzzle,
 }) => {
   if (!isOpen) return null;
+
+  const explanation = puzzle.explanation;
 
   return (
     <div className="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="victory-title">
@@ -40,29 +47,31 @@ export const VictoryModal: React.FC<VictoryModalProps> = ({
           </div>
         </div>
 
-        <div className="modal-explanation">
-          <h3>Estructura Matemática del Grafo:</h3>
-          <ul>
-            <li>
-              <strong>Equivalencia central:</strong>{" "}
-              <MathRenderer math="A^2 = A \iff (I - A)^2 = I - A" />{" "}
-              (la idempotencia de una matriz y la de su proyección complementaria son equivalentes).
-            </li>
-            <li>
-              <strong>Implicaciones universales:</strong> Toda matriz idempotente real tiene autovalores en{" "}
-              <MathRenderer math="\{0, 1\}" />, es diagonalizable sobre <MathRenderer math="\mathbb{R}" /> y satisface{" "}
-              <MathRenderer math="\operatorname{tr}(A) = \operatorname{rank}(A)" />.
-            </li>
-            <li>
-              <strong>Simetría del puzzle:</strong> Existen 12 permutaciones matemáticamente válidas para este grafo; tu deducción es una de ellas.
-            </li>
-          </ul>
-        </div>
+        {explanation && (
+          <div className="modal-explanation">
+            <h3>Estructura Matemática del Grafo:</h3>
+            <p className="explanation-summary">{explanation.summary}</p>
+            <ul>
+              {explanation.items.map((item, idx) => (
+                <li key={idx}>
+                  <strong>{item.title}:</strong>{" "}
+                  {item.math && <MathRenderer math={item.math} />}{" "}
+                  <span>{item.description}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
-        <div className="modal-actions">
-          <button className="btn btn-primary btn-large" onClick={onReset}>
-            Reintentar / Explorar Otra Solución
+        <div className="modal-actions gap-2">
+          <button className="btn btn-secondary" onClick={onReset}>
+            Reintentar
           </button>
+          {onNextPuzzle && (
+            <button className="btn btn-primary btn-large" onClick={onNextPuzzle}>
+              Siguiente Puzzle ➜
+            </button>
+          )}
         </div>
       </div>
     </div>

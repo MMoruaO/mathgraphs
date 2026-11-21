@@ -169,11 +169,14 @@ export const GraphBoard: React.FC<GraphBoardProps> = ({
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
+        onNodeClick={(_event, node) => {
+          onSelectSlot(node.id);
+        }}
         fitView
         fitViewOptions={{ padding: 0.35 }}
         nodesDraggable={false}
         nodesConnectable={false}
-        elementsSelectable={false}
+        elementsSelectable={true}
         panOnDrag={true}
         zoomOnScroll={true}
         minZoom={0.5}

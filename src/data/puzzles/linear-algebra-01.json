@@ -1,0 +1,78 @@
+{
+  "id": "linear-algebra-01",
+  "title": "Matrices Idempotentes y Proyecciones",
+  "topic": "linear_algebra",
+  "difficulty": "medium",
+  "description": "Explora las propiedades algebraicas, el espectro y la diagonalizabilidad de matrices que satisfacen A² = A.",
+  "context": {
+    "id": "ctx_real_square",
+    "name": "Matrices Cuadradas Reales",
+    "assumptions": ["matrix_real_square"]
+  },
+  "slots": [
+    { "id": "s1", "position": { "x": 100, "y": 200 } },
+    { "id": "s2", "position": { "x": 420, "y": 50 } },
+    { "id": "s3", "position": { "x": 420, "y": 200 } },
+    { "id": "s4", "position": { "x": 420, "y": 350 } },
+    { "id": "s5", "position": { "x": 100, "y": 50 } }
+  ],
+  "edges": [
+    {
+      "id": "e_s1_equiv_s5",
+      "sourceSlotId": "s1",
+      "targetSlotId": "s5",
+      "relation": "equivalent"
+    },
+    {
+      "id": "e_s1_implies_s2",
+      "sourceSlotId": "s1",
+      "targetSlotId": "s2",
+      "relation": "implies"
+    },
+    {
+      "id": "e_s1_implies_s3",
+      "sourceSlotId": "s1",
+      "targetSlotId": "s3",
+      "relation": "implies"
+    },
+    {
+      "id": "e_s1_implies_s4",
+      "sourceSlotId": "s1",
+      "targetSlotId": "s4",
+      "relation": "implies"
+    }
+  ],
+  "tiles": [
+    { "id": "tile_1", "statementId": "P1" },
+    { "id": "tile_2", "statementId": "P2" },
+    { "id": "tile_3", "statementId": "P3" },
+    { "id": "tile_4", "statementId": "P4" },
+    { "id": "tile_5", "statementId": "P5" }
+  ],
+  "initialAssignment": {
+    "s1": "tile_2",
+    "s2": "tile_1",
+    "s3": "tile_5",
+    "s4": "tile_3",
+    "s5": "tile_4"
+  },
+  "explanation": {
+    "summary": "Toda matriz idempotente real tiene autovalores en {0, 1}, es diagonalizable y su traza coincide con su rango.",
+    "items": [
+      {
+        "title": "Equivalencia fundamental",
+        "math": "A^2 = A \\iff (I - A)^2 = I - A",
+        "description": "Una matriz es idempotente si y solo si su proyección complementaria lo es."
+      },
+      {
+        "title": "Implicaciones espectrales y rango",
+        "math": "A^2 = A \\implies \\sigma(A) \\subseteq \\{0, 1\\}, \\, \\operatorname{tr}(A) = \\operatorname{rank}(A)",
+        "description": "Al ser diagonalizable con autovalores en {0, 1}, la traza cuenta exactamente la multiplicidad algebraica del autovalor 1, coincidiendo con el rango."
+      },
+      {
+        "title": "Simetría del puzzle",
+        "description": "Existen 12 permutaciones válidas debido a la intercambiabilidad de los tres ramales de implicación y la equivalencia s1 <-> s5."
+      }
+    ]
+  }
+}

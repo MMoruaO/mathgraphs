@@ -1,0 +1,64 @@
+{
+  "id": "topology-compactness-01",
+  "title": "Compacidad en Espacios Métricos",
+  "topic": "topology",
+  "difficulty": "medium",
+  "description": "Descubre las relaciones entre compacidad por recubrimientos, compacidad secuencial, conjuntos cerrados y acotados, y acotación total.",
+  "context": {
+    "id": "ctx_metric_space",
+    "name": "Espacios Métricos Generales",
+    "assumptions": ["metric_space_ambient"]
+  },
+  "slots": [
+    { "id": "s1", "position": { "x": 100, "y": 140 } },
+    { "id": "s2", "position": { "x": 100, "y": 300 } },
+    { "id": "s3", "position": { "x": 420, "y": 140 } },
+    { "id": "s4", "position": { "x": 420, "y": 300 } }
+  ],
+  "edges": [
+    {
+      "id": "e_top_s1_equiv_s2",
+      "sourceSlotId": "s1",
+      "targetSlotId": "s2",
+      "relation": "equivalent"
+    },
+    {
+      "id": "e_top_s1_implies_s3",
+      "sourceSlotId": "s1",
+      "targetSlotId": "s3",
+      "relation": "implies"
+    },
+    {
+      "id": "e_top_s1_implies_s4",
+      "sourceSlotId": "s1",
+      "targetSlotId": "s4",
+      "relation": "implies"
+    }
+  ],
+  "tiles": [
+    { "id": "tile_top_comp", "statementId": "TOP_COMPACT" },
+    { "id": "tile_top_seq", "statementId": "TOP_SEQ_COMPACT" },
+    { "id": "tile_top_clb", "statementId": "TOP_CLOSED_BOUNDED" },
+    { "id": "tile_top_tot", "statementId": "TOP_TOTAL_BOUNDED" }
+  ],
+  "initialAssignment": {
+    "s1": "tile_top_clb",
+    "s2": "tile_top_comp",
+    "s3": "tile_top_seq",
+    "s4": "tile_top_tot"
+  },
+  "explanation": {
+    "summary": "En espacios métricos generales, ser compacto equivale a ser secuencialmente compacto e implica ser cerrado, acotado y totalmente acotado.",
+    "items": [
+      {
+        "title": "Equivalencia en espacios métricos",
+        "math": "K \\text{ compacto} \\iff K \\text{ secuencialmente compacto}",
+        "description": "A diferencia de espacios topológicos generales, en métricos ambas nociones coinciden idénticamente."
+      },
+      {
+        "title": "Implicaciones necesarias no invertibles",
+        "description": "Todo conjunto compacto es cerrado y acotado, pero en espacios de dimensión infinita (como l² o espacios métricos discretos infinitos), un conjunto cerrado y acotado no es compacto."
+      }
+    ]
+  }
+}

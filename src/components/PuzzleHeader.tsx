@@ -1,12 +1,18 @@
 import React from "react";
-import { PuzzleDefinition } from "../core/types.js";
+import { KnowledgeCatalog, PuzzleDefinition } from "../core/types.js";
 import { MathRenderer } from "./MathRenderer.js";
 
 export interface PuzzleHeaderProps {
   puzzle: PuzzleDefinition;
+  catalog: KnowledgeCatalog;
+  onOpenSelector: () => void;
 }
 
-export const PuzzleHeader: React.FC<PuzzleHeaderProps> = ({ puzzle }) => {
+export const PuzzleHeader: React.FC<PuzzleHeaderProps> = ({
+  puzzle,
+  catalog,
+  onOpenSelector,
+}) => {
   return (
     <header className="puzzle-header">
       <div className="header-brand">
@@ -14,7 +20,14 @@ export const PuzzleHeader: React.FC<PuzzleHeaderProps> = ({ puzzle }) => {
           <span className="logo-symbol">∇</span>
           <span className="brand-name">MathGraphs</span>
         </div>
-        <span className="brand-tag">Álgebra Lineal</span>
+        <span className="brand-tag">{puzzle.topic.replace("_", " ")}</span>
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={onOpenSelector}
+          title="Cambiar puzzle o ver biblioteca"
+        >
+          <span className="btn-icon">📚</span> Puzzles
+        </button>
       </div>
 
       <div className="header-puzzle-info">
@@ -22,10 +35,14 @@ export const PuzzleHeader: React.FC<PuzzleHeaderProps> = ({ puzzle }) => {
         <div className="puzzle-context-banner">
           <span className="context-label">Contexto Global (Axiomas):</span>
           <div className="context-math">
-            <MathRenderer math="A \in M_n(\mathbb{R}), \quad n \ge 1" />
+            <MathRenderer
+              math={puzzle.context.assumptions
+                .map((assumptionId) => catalog.assumptions[assumptionId]?.latex ?? assumptionId)
+                .join(", ")}
+            />
           </div>
           <span className="context-note">
-            (Las relaciones deben cumplirse universalmente para toda matriz en este universo)
+            (Las relaciones deben cumplirse universalmente en este universo)
           </span>
         </div>
       </div>

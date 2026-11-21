@@ -1,0 +1,68 @@
+{
+  "id": "analysis-hierarchy-01",
+  "title": "Jerarquía de Regularidad y Continuidad",
+  "topic": "calculus",
+  "difficulty": "hard",
+  "description": "Ordena una cadena estricta de implicaciones sobre regularidad en análisis real, desde diferenciabilidad continua hasta la propiedad de los valores intermedios.",
+  "context": {
+    "id": "ctx_real_func",
+    "name": "Funciones Reales en un Intervalo Abierto",
+    "assumptions": ["real_function_open_interval"]
+  },
+  "slots": [
+    { "id": "s1", "position": { "x": 60, "y": 200 } },
+    { "id": "s2", "position": { "x": 240, "y": 200 } },
+    { "id": "s3", "position": { "x": 420, "y": 200 } },
+    { "id": "s4", "position": { "x": 600, "y": 200 } }
+  ],
+  "edges": [
+    {
+      "id": "e_s1_implies_s2",
+      "sourceSlotId": "s1",
+      "targetSlotId": "s2",
+      "relation": "implies"
+    },
+    {
+      "id": "e_s2_implies_s3",
+      "sourceSlotId": "s2",
+      "targetSlotId": "s3",
+      "relation": "implies"
+    },
+    {
+      "id": "e_s3_implies_s4",
+      "sourceSlotId": "s3",
+      "targetSlotId": "s4",
+      "relation": "implies"
+    }
+  ],
+  "tiles": [
+    { "id": "tile_ana_1", "statementId": "ANA_C1" },
+    { "id": "tile_ana_2", "statementId": "ANA_DIFF" },
+    { "id": "tile_ana_3", "statementId": "ANA_CONT" },
+    { "id": "tile_ana_4", "statementId": "ANA_DARBOUX" }
+  ],
+  "initialAssignment": {
+    "s1": "tile_ana_3",
+    "s2": "tile_ana_1",
+    "s3": "tile_ana_4",
+    "s4": "tile_ana_2"
+  },
+  "explanation": {
+    "summary": "En análisis real existe una cadena estricta de implicaciones: C¹(I) ⟹ Diferenciable ⟹ Continua ⟹ Propiedad de Darboux (valores intermedios).",
+    "items": [
+      {
+        "title": "Cadena unidireccional estricta",
+        "math": "f \\in C^1(I) \\implies f \\text{ dif.} \\implies f \\in C(I) \\implies \\text{Darboux}",
+        "description": "Ninguna de estas implicaciones admite recíproco en general."
+      },
+      {
+        "title": "Contraejemplos clásicos",
+        "description": "|x| es continua pero no diferenciable en 0; x² sen(1/x) es diferenciable con derivada discontinua; sen(1/x) tiene la propiedad de Darboux pero es discontinua en 0."
+      },
+      {
+        "title": "Unicidad de la solución",
+        "description": "Como la cadena es asimétrica y no invertible, este puzzle posee una solución única (1 de 24 permutaciones)."
+      }
+    ]
+  }
+}

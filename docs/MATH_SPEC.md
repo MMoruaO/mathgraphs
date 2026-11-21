@@ -280,3 +280,13 @@ Notice the inherent mathematical symmetry:
    - **Game Design Tradeoff:** While mathematically sound and rewarding, 12 solutions out of 120 gives a 10% chance of random success.
    - **Alternative Tightened Topology:** Adding a directed or equivalence edge between branches (e.g., $(P_2 \land P_3)$ multi-premise, or restricting targets) will be systematically analyzed with the test solver in the first implementation step.
    - For MVP, having 12 valid solutions is completely acceptable and serves as an ideal test case for proving that the engine accepts alternative valid configurations without hardcoding an author's answer.
+
+---
+
+## 8. Catalog Completeness for Playable Puzzles
+
+The validator uses an open-world catalog: a missing relation is `not_verified`, not `invalid`. The solver therefore enumerates assignments accepted by the current catalog; it does not prove that the catalog contains every mathematical relation that is true under the puzzle context.
+
+Before a puzzle is published, its authors must check that every mathematically valid assignment satisfies every edge using the curated evidence available to the validator. If the catalog omits a true relation needed by an otherwise valid assignment, the game will refuse to recognize that assignment as solved. Solver counts must be reported as counts relative to the catalog unless this completeness review has been completed.
+
+Relation symmetry is semantic: `equivalent` and `equals` are symmetric; `implies`, `subset_of`, and `member_of` are directional. Catalog integrity validation enforces that the stored symmetry flag agrees with the relation type so a directional claim cannot silently be accepted in reverse.

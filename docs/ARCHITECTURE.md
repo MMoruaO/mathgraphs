@@ -27,7 +27,7 @@ MathGraphs is architected as an offline-first, client-rendered static web applic
 ```
 ┌────────────────────────────────────────────────────────┐
 │                   UI Layer (React)                     │
-│  - App.tsx, Layout, Controls (Check, Reset, Undo)      │
+│  - App.tsx, puzzle selector, controls (Check/Reset/Undo)│
 │  - GraphView (@xyflow/react canvas)                    │
 │  - StatementNode (KaTeX math display + selection halo) │
 └──────────────────────────┬─────────────────────────────┘
@@ -52,7 +52,8 @@ MathGraphs is architected as an offline-first, client-rendered static web applic
                            ▼
 ┌────────────────────────────────────────────────────────┐
 │           Data & Knowledge Catalog Layer (JSON/TS)     │
-│  - Curated relations, statements, hypotheses hierarchy │
+│  - Puzzle registry, curated relations, statements,      │
+│    hypotheses hierarchy, and declarative puzzle JSON    │
 │  - Pre-indexed lookup maps: (rel, src, tgt) -> Record  │
 │  - Integrity validator: detects contradictory entries  │
 └────────────────────────────────────────────────────────┘
@@ -60,7 +61,7 @@ MathGraphs is architected as an offline-first, client-rendered static web applic
 
 ### Module Boundaries and Performance Guarantees:
 - `src/core/`: Contains **zero imports** from `react`, `react-dom`, `@xyflow/react`, or `katex`.
-- **Validation Complexity:** The engine achieves strict $\mathcal{O}(|E|)$ validation time by looking up relations in pre-indexed composite HashMaps:
+- **Validation Complexity:** Edge relation lookup is $\mathcal{O}(1)$ through pre-indexed composite HashMaps. Full validation, including puzzle schema and assignment checks, is $\mathcal{O}(|V| + |E| + |T|)$:
   $$\text{Key} = `${relation}:${sourceStatementId}:${targetStatementId}`$$
   Linear scanning of arrays ($\mathcal{O}(|E| \cdot |\mathcal{K}|)$) is explicitly avoided.
 - **Catalog Integrity Check:** Upon initialization, the catalog verifies that no pair of statements has both a `VerifiedRelation` and a `RefutedRelation` active under compatible hypotheses.
@@ -85,8 +86,9 @@ mathgraphs/
 │   │   ├── validator.ts       # Deterministic O(|E|) constraint checker
 │   │   └── solver.ts          # Permutation solver for test verification
 │   ├── data/
-│   │   └── puzzles/           # Declarative JSON puzzles
-│   │       └── linear-algebra-01.json
+│   │   ├── masterCatalog.ts  # Shared assumptions, statements, relations
+│   │   ├── puzzleRegistry.ts # Puzzle lookup and default selection
+│   │   └── puzzles/          # Declarative JSON puzzle definitions
 │   ├── state/
 │   │   └── useGameState.ts    # React hook managing board state, bijection & undo history
 │   ├── components/            # React UI components
@@ -94,7 +96,8 @@ mathgraphs/
 │   │   ├── StatementNode.tsx  # Custom React Flow node with KaTeX
 │   │   ├── MathRenderer.tsx   # Isolated KaTeX component
 │   │   ├── GameControls.tsx   # Buttons: Check, Undo, Reset
-│   │   └── FeedbackModal.tsx  # Victory / validation summary dialog
+│   │   ├── VictoryModal.tsx   # Success summary and puzzle progression
+│   │   └── LevelSelectorModal.tsx # Puzzle library and switching
 │   ├── App.tsx
 │   ├── main.tsx
 │   └── index.css
@@ -103,8 +106,9 @@ mathgraphs/
 │   │   ├── validator.test.ts  # Verification of edge evaluation and hypotheses
 │   │   ├── solver.test.ts     # Verification of solutions and alternative configurations
 │   │   └── catalog.test.ts    # Integrity check and contradiction detection
-│   └── fixtures/
-│       └── test-catalog.ts
+│   ├── data/                  # Puzzle schema and solution-count tests
+│   ├── state/                 # Game-state hook tests
+│   └── e2e/                   # Playwright browser interaction tests
 ├── index.html
 ├── package.json
 ├── tsconfig.json
@@ -116,9 +120,9 @@ mathgraphs/
 
 ## 5. Data Flow and Interaction Lifecycle
 
-1. **Initialization:**
-   - `App.tsx` loads `linear-algebra-01.json`.
-   - `useGameState` validates the initial assignment bijection $\sigma_0: V \to T$.
+1. **Initialization and puzzle selection:**
+   - `App.tsx` loads the default definition from `puzzleRegistry.ts`.
+   - `useGameState` initializes the assignment and resets its counters, history, and validation state whenever a different puzzle is selected.
    - Initializes history stack `[initialAssignment]`, `selectedSlotId = null`, `validationResult = null`.
 2. **Player Interaction (Click-to-Swap):**
    - Click on Slot $A$ $\to$ `selectedSlotId = "slot_A"`. UI renders selected halo.
@@ -153,6 +157,10 @@ mathgraphs/
    - Run permutation solver on `linear-algebra-01.json`.
    - Assert that candidate puzzle has $\ge 1$ solution.
    - Enumerate and document all valid permutations (e.g., verifying the predicted 12 symmetric solutions).
+4. **Puzzle Data Tests (`tests/data/`):**
+   - Validate registered puzzle definitions, confirm solvability, and assert reviewed solution counts where catalog coverage is complete.
+5. **Browser Interaction Tests (`tests/e2e/`):**
+   - Run separately with Playwright to verify mouse and keyboard selection, swapping, validation feedback, victory, and puzzle switching.
 
 ---
 

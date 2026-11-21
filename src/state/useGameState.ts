@@ -29,14 +29,18 @@ export interface UseGameStateReturn {
 }
 
 export function useGameState(
-  puzzle: PuzzleDefinition,
+  initialPuzzle: PuzzleDefinition,
   catalog: KnowledgeCatalog
-): UseGameStateReturn {
+): UseGameStateReturn & {
+  puzzle: PuzzleDefinition;
+  setPuzzle: (puzzle: PuzzleDefinition) => void;
+} {
+  const [currentPuzzle, setCurrentPuzzle] = useState<PuzzleDefinition>(initialPuzzle);
   const indexedCatalog = createIndexedCatalog(catalog);
 
   const [state, setState] = useState<GameState>(() => ({
-    assignment: { ...puzzle.initialAssignment },
-    history: [{ ...puzzle.initialAssignment }],
+    assignment: { ...initialPuzzle.initialAssignment },
+    history: [{ ...initialPuzzle.initialAssignment }],
     selectedSlotId: null,
     moveCount: 0,
     checkCount: 0,
@@ -44,6 +48,20 @@ export function useGameState(
     isStaleValidation: false,
     isSolved: false,
   }));
+
+  const setPuzzle = useCallback((newPuzzle: PuzzleDefinition) => {
+    setCurrentPuzzle(newPuzzle);
+    setState({
+      assignment: { ...newPuzzle.initialAssignment },
+      history: [{ ...newPuzzle.initialAssignment }],
+      selectedSlotId: null,
+      moveCount: 0,
+      checkCount: 0,
+      validationResult: null,
+      isStaleValidation: false,
+      isSolved: false,
+    });
+  }, []);
 
   const selectSlot = useCallback(
     (slotId: string) => {
@@ -123,8 +141,8 @@ export function useGameState(
 
   const reset = useCallback(() => {
     setState({
-      assignment: { ...puzzle.initialAssignment },
-      history: [{ ...puzzle.initialAssignment }],
+      assignment: { ...currentPuzzle.initialAssignment },
+      history: [{ ...currentPuzzle.initialAssignment }],
       selectedSlotId: null,
       moveCount: 0,
       checkCount: 0,
@@ -132,11 +150,11 @@ export function useGameState(
       isStaleValidation: false,
       isSolved: false,
     });
-  }, [puzzle.initialAssignment]);
+  }, [currentPuzzle.initialAssignment]);
 
   const check = useCallback(() => {
     setState((prev) => {
-      const result = validatePuzzle(puzzle, prev.assignment, indexedCatalog);
+      const result = validatePuzzle(currentPuzzle, prev.assignment, indexedCatalog);
       return {
         ...prev,
         checkCount: prev.checkCount + 1,
@@ -145,10 +163,12 @@ export function useGameState(
         isSolved: result.isSolved,
       };
     });
-  }, [puzzle, indexedCatalog]);
+  }, [currentPuzzle, indexedCatalog]);
 
   return {
     state,
+    puzzle: currentPuzzle,
+    setPuzzle,
     selectSlot,
     undo,
     reset,

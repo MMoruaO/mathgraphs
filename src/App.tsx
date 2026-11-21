@@ -1,23 +1,29 @@
-import React, { useEffect } from "react";
-import { linearAlgebraPuzzle01, linearAlgebraCatalog } from "./core/fixture.js";
+import React, { useState, useEffect } from "react";
+import { masterCatalog } from "./data/masterCatalog.js";
+import { puzzleRegistry, getDefaultPuzzle } from "./data/puzzleRegistry.js";
 import { useGameState } from "./state/useGameState.js";
 import { PuzzleHeader } from "./components/PuzzleHeader.js";
 import { GraphBoard } from "./components/GraphBoard.js";
 import { GameControls } from "./components/GameControls.js";
 import { ValidationFeedback } from "./components/ValidationFeedback.js";
 import { VictoryModal } from "./components/VictoryModal.js";
+import { LevelSelectorModal } from "./components/LevelSelectorModal.js";
 
 export const App: React.FC = () => {
+  const [isSelectorOpen, setIsSelectorOpen] = useState(false);
+
   const {
     state,
+    puzzle,
+    setPuzzle,
     selectSlot,
     undo,
     reset,
     check,
     clearSelection,
-  } = useGameState(linearAlgebraPuzzle01, linearAlgebraCatalog);
+  } = useGameState(getDefaultPuzzle(), masterCatalog);
 
-  // Keyboard shortcut support: Ctrl+Z for Undo, Space/Enter for Check
+  // Keyboard shortcut support: Ctrl+Z for Undo
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") {
@@ -29,14 +35,24 @@ export const App: React.FC = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [undo]);
 
+  const handleNextPuzzle = () => {
+    const currentIndex = puzzleRegistry.findIndex((p) => p.id === puzzle.id);
+    const nextIndex = (currentIndex + 1) % puzzleRegistry.length;
+    setPuzzle(puzzleRegistry[nextIndex]);
+  };
+
   return (
     <div className="app-container">
-      <PuzzleHeader puzzle={linearAlgebraPuzzle01} />
+      <PuzzleHeader
+        puzzle={puzzle}
+        catalog={masterCatalog}
+        onOpenSelector={() => setIsSelectorOpen(true)}
+      />
 
       <main className="board-main">
         <GraphBoard
-          puzzle={linearAlgebraPuzzle01}
-          catalog={linearAlgebraCatalog}
+          puzzle={puzzle}
+          catalog={masterCatalog}
           assignment={state.assignment}
           selectedSlotId={state.selectedSlotId}
           validationResult={state.validationResult}
@@ -63,9 +79,19 @@ export const App: React.FC = () => {
 
       <VictoryModal
         isOpen={state.isSolved}
+        puzzle={puzzle}
         moveCount={state.moveCount}
         checkCount={state.checkCount}
         onReset={reset}
+        onNextPuzzle={handleNextPuzzle}
+      />
+
+      <LevelSelectorModal
+        isOpen={isSelectorOpen}
+        puzzles={puzzleRegistry}
+        currentPuzzleId={puzzle.id}
+        onSelectPuzzle={setPuzzle}
+        onClose={() => setIsSelectorOpen(false)}
       />
     </div>
   );
